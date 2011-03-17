@@ -3,8 +3,8 @@
 Esta página contém o relatório de implementação do compilador desenvolvido, onde exaltamos as funcionalidades implementadas e apontamos suas limitações. 
 
 <ul>
-<li><a href="#Introdução">Introdução</a></li>
-<li><a href="#Modificações">Modificações</a></li>
+<li><a href="#Introdução" class="section_anchor">Introdução</a></li>
+<li><a href="#Modificações" class="section_anchor">Modificações</a></li>
 </ul>
 
 = Introdução = 
