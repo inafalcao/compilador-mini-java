@@ -5,75 +5,75 @@ Nesta fase, definimos os tokens da linguagem Mini Java.
 Foram definidos os tokens abaixo:
 
 == Tokens de Skip ==
-SKIP :
-{
-  " "
-| "\r"
-| "\t"
-| "\n"
-}
+SKIP :<br>
+{<br>
+  " "<br>
+| "\r"<br>
+| "\t"<br>
+| "\n"<br>
+}<br>
 
 == Tokens (Parênteses, Chaves ...)==
-TOKEN : 
-{
-	< EQUALS : "="> |
-	< NEGATION : "!">|
-	< LBRACE : "{"> |
-	< RBRACE : "}"> |
-	< P_OPEN : "("> |
-	< P_CLOSE : ")"> |
-	< B_OPEN : "["> |
-	< B_CLOSE : "]"> |
-	< POINT : "."> |
-	< COMMA: ","> |
-	< CLOSER : ";">
-}
+TOKEN : <br>
+{<br>
+	< EQUALS : "="> |<br>
+	< NEGATION : "!">|<br>
+	< LBRACE : "{"> |<br>
+	< RBRACE : "}"> |<br>
+	< P_OPEN : "("> |<br>
+	< P_CLOSE : ")"> |<br>
+	< B_OPEN : "["> |<br>
+	< B_CLOSE : "]"> |<br>
+	< POINT : "."> |<br>
+	< COMMA: ","> |<br>
+	< CLOSER : ";"><br>
+}<br>
 
 == Tokens de Palavras Reservadas ==
-TOKEN :
-{
-	< IF : "if"> |
-	< ELSE : "else"> |
-	< WHILE : "while"> |
-	< EXTENDS : "extends"> |
-	< RETURN : "return"> |
-	< CLASS: "class"> |
-	< PUBLIC : "public"> |
-	< STATIC : "static"> |	
-	< VOID : "void"> |
-	< MAIN : "main"> |
-	< STRING : "String"> |
-	< INT : "int"> |
-	< ARRAY_MODIFIER : "[]"> |
-	< LENGTH : "length"> |
-	< BOOLEAN: "boolean"> |
-	< TRUE:"true"> |
-	< FALSE: "false"> |
-	< THIS: "this"> |
-	< NEW : "new"> |
-	< END : "$"> 
-}
+TOKEN :<br>
+{<br>
+	< IF : "if"> |<br>
+	< ELSE : "else"> |<br>
+	< WHILE : "while"> |<br>
+	< EXTENDS : "extends"> |<br>
+	< RETURN : "return"> |<br>
+	< CLASS: "class"> |<br>
+	< PUBLIC : "public"> |<br>
+	< STATIC : "static"> |	<br>
+	< VOID : "void"> |<br>
+	< MAIN : "main"> |<br>
+	< STRING : "String"> |<br>
+	< INT : "int"> |<br>
+	< ARRAY_MODIFIER : "[]"> |<br>
+	< LENGTH : "length"> |<br>
+	< BOOLEAN: "boolean"> |<br>
+	< TRUE:"true"> |<br>
+	< FALSE: "false"> |<br>
+	< THIS: "this"> |<br>
+	< NEW : "new"> |<br>
+	< END : "$"> <br>
+}<br>
 
 == Tokens de Operadores ==
-TOKEN :
-{
-< OP : "&&"|"< "|"+"|"-"|"/"|"*" >
-}
+TOKEN :<br>
+{<br>
+< OP : "&&"|"< "|"+"|"-"|"/"|"*" ><br>
+}<br>
 
 == Tokens de Dígitos ==
-TOKEN :
-{
-  < INTEGER_LITERAL : (< DIGIT >)+ > |
-  < #DIGIT : [ "0"-"9" ] >
-}
+TOKEN :<br>
+{<br>
+  < INTEGER_LITERAL : (< DIGIT >)+ > |<br>
+  < #DIGIT : [ "0"-"9" ] ><br>
+}<br>
 
 == Tokens Literal ==
-TOKEN:
-{
-  < ID : (< LIT >)(< LIT >|< DIGIT >)* > |
-  < #LIT : ["a"-"z"]|["A"-"Z"]|"_">
-}
+TOKEN:<br>
+{<br>
+  < ID : (< LIT >)(< LIT >|< DIGIT >)* > |<br>
+  < #LIT : ["a"-"z"]|["A"-"Z"]|"_"><br>
+}<br>
 
 
-
+<br>
 A compilação deste arquivo pelo utilitário do JavaCC que gera a implementação do compilador foi realizada sem erros nem avisos, o que nos mostra que as definições estão corretas. Podemos concluir que esta fase foi concluída com êxito, já que todas as unidades léxicas da linguagem estão presentes na definição da linguagem, além de vários testes terem sido executados  e nenhum erro inesperado ocorreu.
