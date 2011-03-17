@@ -1,10 +1,10 @@
 #labels análiseléxica,tokens,testes
-== Análise Léxica ==
+= Análise Léxica =
 Nesta fase, definimos os tokens da linguagem Mini Java.
 
 Foram definidos os tokens abaixo:
 
-= Tokens de Skip =
+== Tokens de Skip ==
 SKIP :
 {
   " "
@@ -13,7 +13,7 @@ SKIP :
 | "\n"
 }
 
-= Tokens (Parênteses, Chaves ...)
+== Tokens (Parênteses, Chaves ...)==
 TOKEN : 
 {
 	< EQUALS : "="> |
@@ -29,7 +29,7 @@ TOKEN :
 	< CLOSER : ";">
 }
 
-= Tokens de Palavras Reservadas =
+== Tokens de Palavras Reservadas ==
 TOKEN :
 {
 	< IF : "if"> |
@@ -54,20 +54,20 @@ TOKEN :
 	< END : "$"> 
 }
 
-= Tokens de Operadores ==
+== Tokens de Operadores ==
 TOKEN :
 {
 < OP : "&&"|"< "|"+"|"-"|"/"|"*" >
 }
 
-= Tokens de Dígitos =
+== Tokens de Dígitos ==
 TOKEN :
 {
   < INTEGER_LITERAL : (< DIGIT >)+ > |
   < #DIGIT : [ "0"-"9" ] >
 }
 
-= Tokens Literal ==
+== Tokens Literal ==
 TOKEN:
 {
   < ID : (< LIT >)(< LIT >|< DIGIT >)* > |
