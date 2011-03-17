@@ -1,8 +1,7 @@
-#labels análisesintática
 == Análise Sintática ==
-Na fase sintática, também de responsabilidade do JAVACC, definimos as produções da gramática apresentada no Apêndice A.2 do livro-texto.
+Na fase sintática, também de responsabilidade do JAVACC, definimos as produções da gramática apresentada no Apêndice A do livro-texto.
 
-As produções da gramática foram definidas e estão na seção de Downloads como o nome RegrasGramaticais.txt
+As produções da gramática foram definidas e podem ser vistas <a href="http://code.google.com/p/compilador-mini-java/downloads/detail?name=RegrasGramaticais.txt&can=2&q=">aqui</a>
 
 Algumas modificações na gramática do livro-texto foram necessárias, de forma a retirar as suas ambiguidades. 
 
