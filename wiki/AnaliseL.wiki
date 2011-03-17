@@ -6,8 +6,7 @@ Foram definidos os tokens abaixo:
 
 == Tokens de Skip ==
 SKIP :<br>
-{<br>
-  " "<br>
+{ " "<br>
 | "\r"<br>
 | "\t"<br>
 | "\n"<br>
@@ -71,7 +70,7 @@ TOKEN :<br>
 TOKEN:<br>
 {<br>
   < ID : (< LIT >)(< LIT >|< DIGIT >)* > |<br>
-  < #LIT : ["a"-"z"]|["A"-"Z"]|"_"><br>
+  < #LIT : ["a"-"z"]|["A"-"Z"]|"_"> <br>
 }<br>
 
 
