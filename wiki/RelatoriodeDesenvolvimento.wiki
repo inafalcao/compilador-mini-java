@@ -3,6 +3,6 @@
 Esta página contém o relatório de implementação do compilador desenvolvido, onde exaltamos as funcionalidades implementadas e apontamos suas limitações. 
 
 <ul>
-<li><a href="">Introdução</a></li>
-<li><a href="">Modificações</a></li>
+<li><a href="http://code.google.com/p/compilador-mini-java/wiki/Introducao">Introdução</a></li>
+<li><a href="http://code.google.com/p/compilador-mini-java/wiki/Modificacao">Modificações</a></li>
 </ul>
