@@ -2,11 +2,6 @@
 
 Esta página contém o relatório de implementação do compilador desenvolvido, onde exaltamos as funcionalidades implementadas e apontamos suas limitações. 
 
-<ul>
-<li><a href="http://code.google.com/p/compilador-mini-java/wiki/Introducao">Introdução</a></li>
-<li><a href="http://code.google.com/p/compilador-mini-java/wiki/Modificacoes">Modificações</a></li>
-</ul>
-
 == Objetivo ==
 O objetivo deste trabalho reportado é aplicar os conceitos e técnicas relacionados à construção de um compilador vistos na disciplina.
 
@@ -14,3 +9,10 @@ Toda a implementação está focada na linguagem Mini Java, uma linguagem criada
 <a href="http://www.cambridge.org/us/features/052182060X/">Referência MiniJava</a>]
 
 Todo o trabalho está sendo feito com o JAVACC que é um gerador de analisador sintático que produz código Java. Ele permite que uma determinada linguagem seja definida de maneira simples, por meio de uma notação semelhante à EBNF. Como saída produz o código-fonte de algumas classes Java que implementam os analisadores léxico e sintático para aquela linguagem. Provê também maneiras de incluir, junto à definição da linguagem, código Java para, por exemplo, construir-se a árvore de derivação do programa analisado.
+
+== Índice ==
+<ul>
+<li><a href="http://code.google.com/p/compilador-mini-java/wiki/Introducao">Introdução</a></li>
+<li><a href="http://code.google.com/p/compilador-mini-java/wiki/AnaliseL">Análise Léxica</a></li>
+<li><a href="http://code.google.com/p/compilador-mini-java/wiki/Modificacoes">Modificações</a></li>
+</ul>
