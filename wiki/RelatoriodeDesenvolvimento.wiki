@@ -4,5 +4,5 @@ Esta página contém o relatório de implementação do compilador desenvolvido,
 
 <ul>
 <li><a href="http://code.google.com/p/compilador-mini-java/wiki/Introducao">Introdução</a></li>
-<li><a href="http://code.google.com/p/compilador-mini-java/wiki/Modificacao">Modificações</a></li>
+<li><a href="http://code.google.com/p/compilador-mini-java/wiki/Modificacoes">Modificações</a></li>
 </ul>
