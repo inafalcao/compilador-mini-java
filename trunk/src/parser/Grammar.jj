@@ -1,8 +1,8 @@
 /**
  * JavaCC template file created by SF JavaCC plugin 1.5.17+ wizard for JavaCC 1.5.0+
- */options{  JDK_VERSION = "1.5";  static = true;}PARSER_BEGIN(Grammar)package parser;
+ */options{  JDK_VERSION = "1.5";  static = true;}PARSER_BEGIN(eg1)package parser;
 
-public class Grammar{  public static void main(String args []) throws ParseException  {    Grammar parser = new Grammar(System.in);    while (true)    {      System.out.println("Reading from standard input...");      System.out.print("Digite:");      try      {        switch (Grammar.one_line())        {          case 0 :           System.out.println("OK.");          break;          case 1 :           System.out.println("Goodbye.");          break;          default :           break;        }      }      catch (Exception e)      {        System.out.println("NOK.");        System.out.println(e.getMessage());        Grammar.ReInit(System.in);      }      catch (Error e)      {        System.out.println("Oops.");        System.out.println(e.getMessage());        break;      }    }  }}PARSER_END(Grammar)SKIP :{  " "| "\r"| "\t"| "\n"}
+public class eg1{  public static void main(String args []) throws ParseException  {    eg1 parser = new eg1(System.in);    while (true)    {      System.out.println("Reading from standard input...");      System.out.print("Digite:");      try      {        switch (eg1.one_line())        {          case 0 :           System.out.println("OK.");          break;          case 1 :           System.out.println("Goodbye.");          break;          default :           break;        }      }      catch (Exception e)      {        System.out.println("NOK.");        System.out.println(e.getMessage());        eg1.ReInit(System.in);      }      catch (Error e)      {        System.out.println("Oops.");        System.out.println(e.getMessage());        break;      }    }  }}PARSER_END(eg1)SKIP :{  " "| "\r"| "\t"| "\n"}
 
 /* Falta definir comentários de linha simples e multiplas linhas */
 
@@ -131,26 +131,37 @@ LOOKAHEAD(2)  <ID> "=" Exp() ";"
 |   <ID> "[" Exp() "]" "=" Exp() ";"
 }
 
+void Exp0() :
+{}
+{
+  < OP > Exp()
+|
+  "[" Exp() "]"
+|
+LOOKAHEAD(2)  "." "length"
+|
+  "." < ID > "(" ExpList() ")"
+}
 void Exp() :
 {}
 { 
-  <INTEGER_LITERAL> [Exp()]
+  <INTEGER_LITERAL> [ LOOKAHEAD(2) Exp0() ]
 |
-  "true"
+  "true" [ LOOKAHEAD(2) Exp0() ]
 |
-  "false"
+  "false" [ LOOKAHEAD(2) Exp0() ]
 |
-  <ID>
+  <ID> [ LOOKAHEAD(2) Exp0()]
 |
-  "this"
+  "this" [ LOOKAHEAD(2) Exp0() ]
 |
-LOOKAHEAD(2)  "new" "int" "[" Exp() "]"
+LOOKAHEAD(2)  "new" "int" "[" Exp() "]" [ LOOKAHEAD(2) Exp0() ]
 |
- "new" <ID> "("")"
+ "new" <ID> "("")" [ LOOKAHEAD(2) Exp0() ]
 |
- "!" Exp()
+ "!" Exp() [ LOOKAHEAD(2) Exp0() ]
 |
- "(" Exp() ")" 
+ "(" Exp() ")" [ LOOKAHEAD(2) Exp0() ]
 }
 
 void ExpList() :
