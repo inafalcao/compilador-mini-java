@@ -2,6 +2,6 @@
 = Análise Léxica =
 Nesta fase, definimos os tokens da linguagem Mini Java.
 
-Para visualizar os Tokens criados <a href="">clique aqui</a>
+Para visualizar os Tokens criados <a href="http://code.google.com/p/compilador-mini-java/downloads/detail?name=TOKENS.txt&can=2&q=">clique aqui</a>
 
 A compilação deste arquivo pelo utilitário do JavaCC que gera a implementação do compilador foi realizada sem erros nem avisos, o que nos mostra que as definições estão corretas. Podemos concluir que esta fase foi concluída com êxito, já que todas as unidades léxicas da linguagem estão presentes na definição da linguagem, além de vários testes terem sido executados  e nenhum erro inesperado ocorreu.
