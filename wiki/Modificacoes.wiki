@@ -1,7 +1,8 @@
 = Modificações =
 
-== Versão 1 ==
+== 1 ==
 No dia 26 de fevereiro de 2011 o integrante Paulo Alves criou o projeto no google code e nos mostrou, através de alguns tutoriais, o que era necessário para a instalação do projeto em nossos computadores pessoais.
+Ele teve o cuidado de nos repassar o passo a passo do que deveríamos fazer como descrito abaixo:
 
 Como referência:
 <br> - Livro da disciplina: http://www.4shared.com/document/itEHknEr/Modern_Compiler_Implementation.html
@@ -13,7 +14,7 @@ Como referência:
 
 
 
-== Versão 2 ==
+== 2 ==
 No decorrer do projeto, foram feitas algumas alterações no código até nos adaptarmos a sintaxe do javacc.
 
 No dia 16 de março, houve a necessidade de resetar o repositório.
