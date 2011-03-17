@@ -1,0 +1,79 @@
+#labels análiseléxica,tokens,testes
+== Análise Léxica ==
+Nesta fase, definimos os tokens da linguagem Mini Java.
+
+Foram definidos os tokens abaixo:
+
+= Tokens de Skip =
+SKIP :
+{
+  " "
+| "\r"
+| "\t"
+| "\n"
+}
+
+= Tokens (Parênteses, Chaves ...)
+TOKEN : 
+{
+	< EQUALS : "="> |
+	< NEGATION : "!">|
+	< LBRACE : "{"> |
+	< RBRACE : "}"> |
+	< P_OPEN : "("> |
+	< P_CLOSE : ")"> |
+	< B_OPEN : "["> |
+	< B_CLOSE : "]"> |
+	< POINT : "."> |
+	< COMMA: ","> |
+	< CLOSER : ";">
+}
+
+= Tokens de Palavras Reservadas =
+TOKEN :
+{
+	< IF : "if"> |
+	< ELSE : "else"> |
+	< WHILE : "while"> |
+	< EXTENDS : "extends"> |
+	< RETURN : "return"> |
+	< CLASS: "class"> |
+	< PUBLIC : "public"> |
+	< STATIC : "static"> |	
+	< VOID : "void"> |
+	< MAIN : "main"> |
+	< STRING : "String"> |
+	< INT : "int"> |
+	< ARRAY_MODIFIER : "[]"> |
+	< LENGTH : "length"> |
+	< BOOLEAN: "boolean"> |
+	< TRUE:"true"> |
+	< FALSE: "false"> |
+	< THIS: "this"> |
+	< NEW : "new"> |
+	< END : "$"> 
+}
+
+= Tokens de Operadores ==
+TOKEN :
+{
+< OP : "&&"|"< "|"+"|"-"|"/"|"*" >
+}
+
+= Tokens de Dígitos =
+TOKEN :
+{
+  < INTEGER_LITERAL : (< DIGIT >)+ > |
+  < #DIGIT : [ "0"-"9" ] >
+}
+
+= Tokens Literal ==
+TOKEN:
+{
+  < ID : (< LIT >)(< LIT >|< DIGIT >)* > |
+  < #LIT : ["a"-"z"]|["A"-"Z"]|"_">
+}
+
+
+
+A compilação deste arquivo pelo utilitário do JavaCC que gera a implementação do compilador foi realizada sem erros nem avisos, o que nos mostra que as definições estão corretas. Podemos concluir que esta fase foi concluída com êxito, já que todas as unidades léxicas da linguagem estão presentes na definição da linguagem, além de vários testes terem sido executados  e nenhum erro inesperado ocorreu.
