@@ -1,9 +1,11 @@
 /**
  * JavaCC template file created by SF JavaCC plugin 1.5.17+ wizard for JavaCC 1.5.0+
- */options{  JDK_VERSION = "1.5";  static = true;}PARSER_BEGIN(eg1)package parser;
+ */options{  JDK_VERSION = "1.5";  static = true;}PARSER_BEGIN(MiniJavaParser)package parser;
+import syntaxtree.*;
 
-public class eg1{  public static void main(String args []) throws ParseException  {    eg1 parser = new eg1(System.in);    while (true)    {      System.out.println("Reading from standard input...");      System.out.print("Digite:");      try      {        switch (eg1.one_line())        {          case 0 :           System.out.println("OK.");          break;          case 1 :           System.out.println("Goodbye.");          break;          default :           break;        }      }      catch (Exception e)      {        System.out.println("NOK.");        System.out.println(e.getMessage());        eg1.ReInit(System.in);      }      catch (Error e)      {        System.out.println("Oops.");        System.out.println(e.getMessage());        break;      }
-      break;    }  }}PARSER_END(eg1)SKIP :{  " "| "\r"| "\t"| "\n"}
+public class MiniJavaParser {
+}PARSER_END(MiniJavaParser)
+SKIP :{  " "| "\r"| "\t"| "\n"}
 
 /* Falta definir comentários de linha simples e multiplas linhas */
 
@@ -43,12 +45,14 @@ TOKEN :
 	< FALSE: "false"> |
 	< THIS: "this"> |
 	< NEW : "new"> |
-	< END : "$"> 
+	< END : "$">|
+	< AND: "&&">|
+	< LESS_THAN: "< ">|
+	< PLUS: "+">|
+	< MINUS: "-">|
+	< TIMES: "*">
 }
 
-TOKEN :
-{< OP : "&&"|"< "|"+"|"-"|"/"|"*" >
-}
 TOKEN :
 {
   < INTEGER_LITERAL : (< DIGIT >)+ > |
@@ -58,121 +62,190 @@ TOKEN:
 {
   < ID : (< LIT >)(< LIT >|< DIGIT >)* > |
   < #LIT : ["a"-"z"]|["A"-"Z"]|"_">
-}int one_line() :{}{  Program()  {    return 0;  }|  {    return 1;  }}
-
-void Program() :
-{}
-{
-  MainClass() ( ClassDecl() )* < END >
 }
 
-void MainClass() :
-{}
+Program Program() :
 {
-  < CLASS > <ID> "{" "public" "static" "void" "main" "(" "String" "[]" <ID> ")" "{" Statement() "}" "}"
+  MainClass mainClass;
+  ClassDecl classDecl;
+  ClassDeclList cdList = new ClassDeclList();
+}
+{
+  mainClass = MainClass() ( classDecl = ClassDecl() { cdList.addElement(classDecl); } )* <END>
+  { return new Program(mainClass, cdList); }
+}
+
+MainClass MainClass() :
+{
+  Token idClass, idMainArgs;
+  Statement stm;
+}
+{
+  "class" idClass = <ID> "{" "public" "static" "void" "main" "(" "String" "[]" idMainArgs = <ID> ")" "{" stm = Statement() "}" "}"
+  { return new MainClass(new Identifier(idClass.image), new Identifier(idMainArgs.image), stm); }
+}
+
+ClassDecl ClassDecl() :
+{
+Token id, idSuper;
+VarDeclList varList = new VarDeclList();
+MethodDeclList methodList = new MethodDeclList();
+VarDecl vd;
+MethodDecl mc;
+}
+{
+  LOOKAHEAD(3) "class" id = <ID> "{" ( vd = VarDecl()  {varList.addElement(vd);} )*( mc = MethodDecl() { methodList.addElement(mc); } )* "}"
+  { return new ClassDeclSimple(new Identifier(id.image), varList, methodList); }
+| "class" id = <ID> "extends" idSuper = <ID> "{" ( vd = VarDecl() { varList.addElement(vd); } )* ( mc = MethodDecl() { methodList.addElement(mc); } )* "}"
+  { return new ClassDeclExtends(new Identifier(id.image), new Identifier(idSuper.image), varList, methodList); }
+}
+
+VarDecl VarDecl() :
+{
+Token id;
+Type type;
+}
+{
+  type = Type() id = <ID> ";"
+  { return new VarDecl(type, new Identifier(id.image)); }
+}
+
+MethodDecl MethodDecl() :
+{
+  Type type;
+  Token id;
+  FormalList formalList;
+  VarDecl vd;
+  Statement stm; 
+  VarDeclList varList = new VarDeclList();
+  StatementList stmList = new StatementList();
+  Exp returnExp;
+}
+{
+  "public" type = Type() id = <ID> "(" formalList = FormalList() ")" "{" ( LOOKAHEAD(2) vd = VarDecl()  { varList.addElement(vd);} )* ( stm = Statement() {stmList.addElement(stm);})* "return" returnExp = Exp() ";" "}"
+  { return new MethodDecl(type, new Identifier(id.image), formalList, varList, stmList, returnExp); }
 }
 
 
-void ClassDecl() :
-{}
+FormalList FormalList() :
 {
-  LOOKAHEAD(3) "class" <ID> "{" ( VarDecl() )* ( MethodDecl() )* "}"
-  |  "class" <ID> "extends" <ID> "{" ( VarDecl() )* ( MethodDecl() )* "}"
+  Type type;
+  Token id;
+  Formal fr;
+  FormalList fl = new FormalList();
+}
+{
+  ( type = Type() id = <ID> { fl.addElement(new Formal(type,new Identifier(id.image)));} ( fr = FormalRest(){ fl.addElement(fr);} )* )?
+  { return fl;} 
 }
 
-void VarDecl() :
-{}
+Formal FormalRest() :
 {
-  Type() <ID> ";"
+Type type;
+Token id;
+}
+{
+  "," type = Type() id = <ID>
+  { return new Formal(type, new Identifier(id.image));}
 }
 
-void MethodDecl() :
-{}
+Type Type() :
 {
-  "public" Type() <ID> "(" FormalList() ")" "{" ( LOOKAHEAD(2) VarDecl() )* ( Statement() )* "return" Exp() ";" "}"
+  Token id;
 }
-
-void FormalList() :
-{}
 {
-  ( Type() <ID> ( FormalRest() )* )?
-
-}
-
-void FormalRest() :
-{}
-{
-  "," Type() <ID>
-}
-
-void Type() :
-{}
-{
-LOOKAHEAD(2)  "int" "[]"
+LOOKAHEAD(2)  "int" "[]" { return new IntArrayType();}
 |
-  "int"
+  "int" { return new IntegerType();}
 |
-  "boolean"
+  "boolean" { return new BooleanType();}
 |  
-  <ID>
+  id = <ID> { return new IdentifierType(id.image);}
 }
 
-void Statement() :
-{}
+Statement Statement() :
 {
-  "{" ( Statement() )* "}"
+  	Token id;
+	Statement stm1,stm2;
+	StatementList stmL = new StatementList();
+	Exp exp,exp2;
+}
+{
+  "{" ( stm1 = Statement(){ stmL.addElement(stm1);} )* "}" { return new Block(stmL);}
 |
-  "if" "(" Exp() ")" Statement() "else" Statement()
+  "if" "(" exp = Exp() ")" stm1 = Statement() "else" stm2 = Statement() { return new If(exp,stm1,stm2);}
 |
-  "while" "(" Exp() ")" Statement()
+  "while" "(" exp = Exp() ")" stm1 = Statement() { return new While(exp,stm1);}
 |
-  "System.out.println" "(" Exp() ")" ";"
+  "System.out.println" "(" exp = Exp() ")" ";" { return new Print(exp);}
 |
-LOOKAHEAD(2)  <ID> "=" Exp() ";"
-|   <ID> "[" Exp() "]" "=" Exp() ";"
+LOOKAHEAD(2)  id = <ID> "=" exp = Exp() ";" { return new Assign(new Identifier(id.image),exp);}
+|   id = <ID> "[" exp = Exp() "]" "=" exp2 = Exp() ";" { return new ArrayAssign(new Identifier(id.image),exp,exp2);}
 }
 
-void Exp0() :
-{}
+Exp Exp0(Exp expAux) :
 {
-  < OP > Exp()
-|
-  "[" Exp() "]"
-|
-LOOKAHEAD(2)  "." "length"
-|
-  "." < ID > "(" ExpList() ")"
+	Exp exp;
+	Token id;
+	ExpList expL = new ExpList();
 }
-void Exp() :
-{}
+{
+  < PLUS > exp = Exp(){return new Plus(expAux,exp);}
+|
+  < MINUS > exp = Exp(){return new Minus(expAux,exp);}
+|
+  < TIMES > exp = Exp(){return new Times(expAux,exp);}
+|
+  < AND > exp = Exp(){return new And(expAux,exp);}
+|
+  < LESS_THAN > exp = Exp(){return new LessThan(expAux,exp);}
+|
+  "[" exp = Exp() "]" {return new ArrayLookup(expAux,exp);}
+|
+LOOKAHEAD(2)  "." "length" {return new ArrayLength(expAux);}
+|
+  "." id = < ID > "(" expL = ExpList() ")" {return new Call(expAux,new Identifier(id.image),expL);}
+}
+Exp Exp() :
+{
+  Exp exp,exp2;
+  Token il,id;
+}
 { 
-  <INTEGER_LITERAL> [ LOOKAHEAD(2) Exp0() ]
+(  il = <INTEGER_LITERAL> {exp = new IntegerLiteral(Integer.parseInt(il.image));} [ LOOKAHEAD(2) exp = Exp0(exp) ]
 |
-  "true" [ LOOKAHEAD(2) Exp0() ]
+  "true" {exp = new True();}[ LOOKAHEAD(2) exp = Exp0(exp) ]
 |
-  "false" [ LOOKAHEAD(2) Exp0() ]
+  "false" {exp = new False();} [ LOOKAHEAD(2) exp = Exp0(exp) ]
 |
-  <ID> [ LOOKAHEAD(2) Exp0()]
+  id = <ID> {exp = new IdentifierExp(id.image);} [ LOOKAHEAD(2) exp = Exp0(exp) ] [ LOOKAHEAD(2) exp = Exp0(exp) ]
 |
-  "this" [ LOOKAHEAD(2) Exp0() ]
+  "this" {exp = new This();}[ LOOKAHEAD(2) exp = Exp0(exp) ]
 |
-LOOKAHEAD(2)  "new" "int" "[" Exp() "]" [ LOOKAHEAD(2) Exp0() ]
+LOOKAHEAD(2)  "new" "int" "[" exp2 = Exp() "]" {exp = new NewArray(exp2);}[ LOOKAHEAD(2) exp = Exp0(exp) ]
 |
- "new" <ID> "("")" [ LOOKAHEAD(2) Exp0() ]
+ "new" id = <ID>  "("")" {exp = new NewObject(new Identifier(id.image));} [ LOOKAHEAD(2) exp = Exp0(exp) ]
 |
- "!" Exp() [ LOOKAHEAD(2) Exp0() ]
+ "!" exp2 = Exp() {exp = new Not(exp2);} [ LOOKAHEAD(2) exp = Exp0(exp) ]
 |
- "(" Exp() ")" [ LOOKAHEAD(2) Exp0() ]
+ "(" exp = Exp() ")" [ LOOKAHEAD(2) exp = Exp0(exp) ]
+) {return exp;}
 }
 
-void ExpList() :
-{}
+ExpList ExpList() :
 {
-  ( Exp() ( ExpRest() )* )?
+  Exp exp;
+  ExpList expL= new ExpList();
+}
+{
+  (( exp = Exp(){expL.addElement(exp);}( exp = ExpRest(){expL.addElement(exp);})* )?)
+  { return expL;}
 }
 
-void ExpRest() :
-{}
+Exp ExpRest() :
 {
-  "," Exp()
+  Exp  exp;
+}
+{
+  "," exp = Exp()  {return exp;}
 }
