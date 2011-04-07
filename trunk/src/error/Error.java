@@ -12,7 +12,7 @@ public class Error {
 		//variable to control the end's line	
 		public int endLine;
 		
-
+        //constructor
 		public SingleErro(String erro, int beginLine, int endLine){
 			msg = erro;
 			this.beginLine = beginLine;
@@ -31,7 +31,7 @@ public class Error {
 			this.endLine = -1;
 		}
 		
-		
+		//says the range where the errors
 		public String toString(){
 			String msg = new String();
 			if(beginLine > -1)
@@ -83,7 +83,7 @@ public class Error {
 		return !erros.isEmpty();
 	}
 	     
-	
+	//string's size (percorre o erro)
 	public String toString(){
 		String e = new String();
 		for(int i = 0; i < erros.size(); i++){

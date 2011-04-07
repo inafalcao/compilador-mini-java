@@ -50,7 +50,7 @@ public class Symbol{
 			name = it.next();
 			if(dict.get(name).value == value) return name;
 		}
-		name = "Identificador nao valido";
+		name = "Identificador nao eh valido";
 		return name;
 	}
 	

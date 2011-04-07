@@ -9,7 +9,7 @@ import syntaxtree.Type;
 
 public class SymbolTable {
 
-
+	
 	private HashMap<Symbol, Class> classes;
 
 	private Class currentClass = null;
