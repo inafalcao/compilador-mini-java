@@ -4,40 +4,7 @@
 import syntaxtree.*;
 
 public class MiniJavaParser {
-	public static void main(String[] args){
-		boolean exit = true;
-		System.out.println("Compilador Linguaguem MiniJava");
-		System.out.println("Camila - Danusa - Lucas A - PJ!");
-		System.out.println("##################################");
-	
-		MiniJavaParser parser;
-	    if (args.length == 0) {
-	      System.out.println("Leitura padrao . . .");
-	      parser = new MiniJavaParser(System.in);
-	    } else if (args.length == 1) {
-	      System.out.println("Lendo do arquivo " + args[0] + " . . .");
-	      try {
-	        parser = new MiniJavaParser(new java.io.FileInputStream(args[0]));
-	      } catch (java.io.FileNotFoundException e) {
-	        System.out.println("Arquivo" + args[0] + " nao foi encontrado.");
-	        return;
-	      }
-	    } else {
-	      System.out.println("MiniJava Parser Version 0.1:  Usage is one of:");
-	      System.out.println("         java MiniJavaParser < inputfile");
-	      System.out.println("OR");
-	      System.out.println("         java MiniJavaParser inputfile");
-	      return;
-	    }
-	    try {
-	      parser.Program();
-	      System.out.println("MiniJava Parser Version 0.1:  MiniJava file parsed successfully.");
-	    } catch (ParseException e) {
-	      System.out.println("MiniJava Parser Version 0.1:  Encountered errors during parse.");
-	    }
-	  }
-
-  
+ 
 }PARSER_END(MiniJavaParser)
 SKIP :{  " "| "\r"| "\t"| "\n"}
 

@@ -10,7 +10,7 @@ import syntaxtree.Type;
 public class SymbolTable {
 
 	
-	private HashMap<Symbol, Class> classes;
+	private static HashMap<Symbol, Class> classes;
 
 	private Class currentClass = null;
 
@@ -107,7 +107,7 @@ public class SymbolTable {
 	}
 
 	
-	public void print() {
+	public static void print() {
 		Symbol[] cls = classes.keySet().toArray(new Symbol[1]);
 		for(int i = 0; i < classes.size(); i++){
 			System.out.println("##################################");
