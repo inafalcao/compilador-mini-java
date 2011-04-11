@@ -102,6 +102,14 @@ public class TypeDepthFirstVisitor implements TypeVisitor {
   public Type visit(IntegerType n) {
     return null;
   }
+  
+  public Type visit(NullType n) {
+	return null;
+  }
+  
+  public Type visit(StringArrayType n) {
+		return null;
+	  }
 
   // String s;
   public Type visit(IdentifierType n) {

@@ -14,7 +14,7 @@ public class Program {
     v.visit(this);
   }
 
-  public Type accept(TypeVisitor v) {
-    return v.visit(this);
+  public void accept(TypeVisitor v) {
+    v.visit(this);
   }
 }

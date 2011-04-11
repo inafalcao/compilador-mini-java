@@ -1,6 +1,5 @@
 package symbolTable;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import error.Error;
 import syntaxtree.*;
@@ -45,8 +44,8 @@ public class Class {
 	}
 
 	
-	public void addMethod(Symbol m, Type returnType, ArrayList<String> arguments) {
-		Method mt = new Method(m, returnType, arguments);
+	public void addMethod(Symbol m, Type returnType) {
+		Method mt = new Method(m, returnType);
 		methods.put(m, mt);
 	}
 

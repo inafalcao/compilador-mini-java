@@ -17,6 +17,12 @@ public class Symbol{
 	private Symbol(int value){
 		this.value = value;
 	}
+	
+	public static boolean symbolCheck(String name){
+		if(dict.containsKey(name)) return true;
+		return false;
+	}
+	
 	//verifies if the symbol is in dictionary - pag 99
 	public static Symbol symbol(String name){
 		if(dict.containsKey(name)) return dict.get(name);

@@ -87,6 +87,12 @@ public class DepthFirstVisitor implements Visitor {
   public void visit(IntArrayType n) {
   }
 
+  public void visit(NullType n) {
+  }
+  
+  public void visit(StringArrayType n) {
+  }
+  
   public void visit(BooleanType n) {
   }
 

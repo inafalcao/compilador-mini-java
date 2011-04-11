@@ -11,6 +11,8 @@ public interface Visitor {
   public void visit(MethodDecl n);
   public void visit(Formal n);
   public void visit(IntArrayType n);
+  public void visit(NullType n);
+  public void visit(StringArrayType n);
   public void visit(BooleanType n);
   public void visit(IntegerType n);
   public void visit(IdentifierType n);

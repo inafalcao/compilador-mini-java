@@ -1,19 +1,16 @@
 package compiladorMiniJava;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 
+import error.Error;
 
 import parser.MiniJavaParser;
 import parser.ParseException;
 import typeCheking.*;
-
+import visitor.SymbolTableVisitor;
 
 
 import symbolTable.*;
@@ -41,20 +38,18 @@ public class compiladorMiniJava {
 			
 			table = new SymbolTableVisitor().buildSymbolTable(prog);
 			
-			System.out.println("Passou");
-			checkType = new CheckType(table);
-			
 			SymbolTable.print();
 			
-			//checkType.visit(prog);
+			checkType = new CheckType(table);
+			
+			checkType.visit(prog);
+			if(Error.getInstance().hasErro())Error.getInstance().print();
+			else System.out.println("COMPILOU!");
 			
 			in.close();//close file
 		} catch (IOException e) {
 			System.out.println("Problemas para ler o arquivo");
 		}//ends catch
-		
-		
-		
 		
 	}//ends main
 

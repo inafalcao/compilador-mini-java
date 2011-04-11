@@ -129,6 +129,14 @@ public class PrettyPrintVisitor implements Visitor {
   public void visit(BooleanType n) {
     System.out.print("boolean");
   }
+  
+  public void visit(NullType n) {
+	    System.out.print("null");
+  }
+  
+  public void visit(StringArrayType n) {
+	    System.out.print("String []");
+  }
 
   public void visit(IntegerType n) {
     System.out.print("int");

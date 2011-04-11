@@ -1,6 +1,5 @@
 package symbolTable;
 
-import java.util.ArrayList;
 import error.Error;
 
 import java.util.HashMap;
@@ -38,10 +37,10 @@ public class SymbolTable {
 		}
 	}
 	
-	public void addMethod(Type returnType, Symbol method, ArrayList<String> arguments){
+	public void addMethod(Type returnType, Symbol method){
 		if(currentClass.getMethods().containsKey(method))System.out.println("Metodo:"+method.toString()+" j� declarada");
 		else
-			currentClass.addMethod(method,returnType, arguments);
+			currentClass.addMethod(method,returnType);
 	}
 	
 	
@@ -110,7 +109,6 @@ public class SymbolTable {
 	public static void print() {
 		Symbol[] cls = classes.keySet().toArray(new Symbol[1]);
 		for(int i = 0; i < classes.size(); i++){
-			System.out.println("##################################");
 			System.out.println("Classe: " + cls[i].toString());
 			System.out.println("Atributos:");
 			Class cl = classes.get(cls[i]);
@@ -132,7 +130,7 @@ public class SymbolTable {
 					}
 				}
 			}
-			System.out.println("##################################");
+			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		}
 	}
 
@@ -169,8 +167,8 @@ public class SymbolTable {
 		return classes.containsKey(s);
 	}
 
-	public boolean hasType(Type type) {
-		return classes.containsKey(type);
+	public boolean hasType(Symbol s) {
+		return classes.containsKey(s);
 	}
 	
 }//end 
