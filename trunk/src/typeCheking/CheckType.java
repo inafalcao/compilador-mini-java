@@ -380,7 +380,7 @@ public class CheckType implements TypeVisitor {
 			if(!n.el.elementAt(i).accept(this).equals(meth.getPramsType()[i])){
 				Error.getInstance().addErro("Paramentro com conflito de tipos, tipo esperado " + meth.getPramsType()[i].toString(), n.i.beginLine);
 			}
-		}	*/
+		}*/
 		return meth.getReturnType();
 	}
 

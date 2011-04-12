@@ -55,8 +55,6 @@ public class compiladorMiniJava {
 			}
 			
 			//fase traducao
-					
-					
 			
 			in.close();//close file
 		} catch (IOException e) {
