@@ -350,22 +350,26 @@ public class CheckType implements TypeVisitor {
 	public Type visit(Call n) {
 		Type type;
 		type = n.e.accept(this);
-		if(type.equals(new IntArrayType()) || type.equals(new IntegerType()) || type.equals(new BooleanType()) ){
-			Error.getInstance().addErro("Expressão invalida, identificador esperado", n.i.beginLine);
-			Error.getInstance().print();
-			System.err.println("EXECUCAO DO COMPILADOR INTERROMPIDA");
-			System.exit(1);
-			return null;
-		}		
-		Method meth = table.getMethod(Symbol.symbol(type.toString()), Symbol.symbol(n.i.s));
-		if(meth == null){
-			Error.getInstance().addErro("Metodo não declarado : " + n.i.s, n.i.beginLine);
-			//Error.getInstance().print();
-			//System.err.println("EXECUCAO DO COMPILADOR INTERROMPIDA");
-			//System.exit(1);
+		if(type==null){
+			Error.getInstance().addErro ("Expressão invalida, referência a objeto esperada", n.i.beginLine);
 			return null;
 		}
-		if(n.el.size()<meth.getPramsType().length){
+		if(!type.equals(new IdentifierType("x"))&&!type.equals(new This())){
+			Error.getInstance().addErro ("Expressão invalida, referência a objeto esperada", n.i.beginLine);
+			return null;
+		}
+	
+		Method meth;
+		
+		if(type.equals(new This())) meth = table.getMethod(Symbol.symbol(table.getCurrentClass().toString()), Symbol.symbol(n.i.s));
+		else meth = table.getMethod(Symbol.symbol(((IdentifierType)type).s), Symbol.symbol(n.i.s));
+		
+		if(meth == null){
+			Error.getInstance().addErro("Metodo não declarado : " + n.i.s, n.i.beginLine);
+			return null;
+		}
+		
+		/*if(n.el.size()<meth.getPramsType().length){
 			Error.getInstance().addErro("Faltam parametros para o metodo : " + n.i.s, n.i.beginLine);
 			return meth.getReturnType();
 		}else if(n.el.size()>meth.getPramsType().length) {
@@ -376,7 +380,7 @@ public class CheckType implements TypeVisitor {
 			if(!n.el.elementAt(i).accept(this).equals(meth.getPramsType()[i])){
 				Error.getInstance().addErro("Paramentro com conflito de tipos, tipo esperado " + meth.getPramsType()[i].toString(), n.i.beginLine);
 			}
-		}	
+		}	*/
 		return meth.getReturnType();
 	}
 
