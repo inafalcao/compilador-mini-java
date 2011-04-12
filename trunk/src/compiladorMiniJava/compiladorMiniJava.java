@@ -32,7 +32,7 @@ public class compiladorMiniJava {
 		
 		//reading file
 		try {
-			Reader in = new FileReader("program");
+			Reader in = new FileReader("files/Factorial.java");
 			parser = new MiniJavaParser(in);
 			Program prog = parser.Program();
 			
