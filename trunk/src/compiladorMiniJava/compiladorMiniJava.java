@@ -49,7 +49,10 @@ public class compiladorMiniJava {
 			checkType = new CheckType(table);
 			checkType.visit(prog);
 			if(Error.getInstance().hasErro())Error.getInstance().print();
-			else System.out.println("COMPILOU!");
+			else{
+				System.out.println();
+				System.out.println("COMPILOU!");
+			}
 			
 			//fase traducao
 					

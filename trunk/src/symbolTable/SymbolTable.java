@@ -106,6 +106,7 @@ public class SymbolTable {
 
 	
 	public static void print() {
+		System.out.println("~~~~~~~~~~~~~~TABELA DE SIMBOLOS~~~~~~~~~~~~~~");
 		Symbol[] cls = classes.keySet().toArray(new Symbol[1]);
 		for(int i = 0; i < classes.size(); i++){
 			System.out.println("Classe: " + cls[i].toString());
