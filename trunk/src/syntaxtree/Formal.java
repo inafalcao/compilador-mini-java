@@ -1,4 +1,5 @@
 package syntaxtree;
+import visitor.TranslateVisitor;
 import visitor.Visitor;
 import visitor.TypeVisitor;
 
@@ -17,4 +18,9 @@ public class Formal {
   public Type accept(TypeVisitor v) {
     return v.visit(this);
   }
+  
+  //Translate.java
+  public activationRegister.util.Exp accept(TranslateVisitor v){
+		return v.visit(this);
+	}
 }

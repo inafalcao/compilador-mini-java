@@ -1,4 +1,5 @@
 package syntaxtree;
+import visitor.TranslateVisitor;
 import visitor.Visitor;
 import visitor.TypeVisitor;
 
@@ -18,4 +19,8 @@ public class ClassDeclSimple extends ClassDecl {
   public void accept(TypeVisitor v) {
     v.visit(this);
   }
+  
+  public activationRegister.util.Exp accept(TranslateVisitor v){
+	  return v.visit(this);
+  	}
 }

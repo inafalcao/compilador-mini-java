@@ -168,6 +168,7 @@ public abstract class Translate implements TranslateVisitor {
 		return new Nx(stm);
 	}
 
+	//igual ao do livro
 	public Exp visit(If n) { 
 		Label t = new Label();
 		Label f = new Label();

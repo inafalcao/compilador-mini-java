@@ -1,4 +1,5 @@
 package syntaxtree;
+import visitor.TranslateVisitor;
 import visitor.Visitor;
 import visitor.TypeVisitor;
 
@@ -16,5 +17,9 @@ public class MainClass {
 
   public void accept(TypeVisitor v) {
     v.visit(this);
+  }
+  //criada para ser usada no Translate.java
+  public activationRegister.util.Exp accept(TranslateVisitor v){
+	  return v.visit(this);
   }
 }

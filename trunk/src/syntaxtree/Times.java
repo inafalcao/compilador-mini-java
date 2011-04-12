@@ -1,4 +1,5 @@
 package syntaxtree;
+import visitor.TranslateVisitor;
 import visitor.Visitor;
 import visitor.TypeVisitor;
 
@@ -16,4 +17,8 @@ public class Times extends Exp {
   public Type accept(TypeVisitor v) {
     return v.visit(this);
   }
+  
+  public activationRegister.util.Exp accept(TranslateVisitor v){
+	  return v.visit(this);
+  	}
 }
