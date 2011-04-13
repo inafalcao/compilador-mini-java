@@ -107,7 +107,7 @@ public class SymbolTable {
 
 	
 	public static void print() {
-		System.out.println("~~~~~~~~~~~~~~TABELA DE SIMBOLOS~~~~~~~~~~~~~~");
+		System.out.println("~~~~~~~~~~~~~TABELA DE SIMBOLOS~~~~~~~~~~~~~");
 		Symbol[] cls = classes.keySet().toArray(new Symbol[1]);
 		for(int i = 0; i < classes.size(); i++){
 			System.out.println("Classe: " + cls[i].toString());
@@ -172,4 +172,13 @@ public class SymbolTable {
 		return classes.containsKey(s);
 	}
 	
+	public void addError(String s){
+		String erro ="";
+		if(currentClass!=null) erro = "[Classe:"+currentClass.getName()+"]";
+		if(currentMethod!=null)erro = erro + "[Método:"+currentMethod.toString()+"]";
+		erro = erro + " "+s;
+		Error.getInstance().addErro(erro);
+	}
+	
 }//end 
+

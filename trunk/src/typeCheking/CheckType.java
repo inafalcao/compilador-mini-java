@@ -61,7 +61,7 @@ public class CheckType implements TypeVisitor {
 		Type type = n.t;
 		if(!type.equals(new IntArrayType()) && !type.equals(new IntegerType()) && !type.equals(new BooleanType())){
 			if(!table.hasType(Symbol.symbol(((IdentifierType)type).s))){
-				Error.getInstance().addErro("Tipo da variavel "+s.toString()+" nao declarado", n.i.beginLine);
+				table.addError("Tipo da variavel "+s.toString()+" nao declarado");
 			}
 		}
 		return null;
@@ -78,10 +78,10 @@ public class CheckType implements TypeVisitor {
 		//checa retorno
 		Type type = n.e.accept(this);
 		if (type == null){
-			Error.getInstance().addErro("Expressão invalida", n.e.beginLine);
+			table.addError("Expressão invalida");
 		}else{
 			if(!n.t.equals(type)) 
-				Error.getInstance().addErro(n.i.s + ": tipo errado de retorno",n.i.beginLine);
+				table.addError(n.i.s + ": tipo errado de retorno");
 		}
 		
 		for(int i = 0; i < n.sl.size(); i++){
@@ -97,7 +97,7 @@ public class CheckType implements TypeVisitor {
 		
 		if(!type.equals(new IntArrayType()) && !type.getClass().equals((new IntegerType()).getClass()) && !type.equals(new BooleanType())){
 			if(!table.hasType(Symbol.symbol(((IdentifierType)type).s))){
-				Error.getInstance().addErro("Tipo da variavel "+s.toString()+" nao declarado", n.i.beginLine);
+				table.addError("Tipo da variavel "+s.toString()+" nao declarado");
 			}
 		}
 		return null;
@@ -139,11 +139,11 @@ public class CheckType implements TypeVisitor {
 	public Type visit(If n) {
 		Type t = n.e.accept(this);
 		if (t == null){
-			Error.getInstance().addErro("Expressão invalida, retorno booleano esperado", n.e.beginLine);
+			table.addError("Expressão invalida, retorno booleano esperado");
 			return null;
 		}
 		if(!(t.equals(new BooleanType())))
-			Error.getInstance().addErro("Expressão invalida, retorno booleano esperado", n.e.beginLine);
+			table.addError("Expressão invalida, retorno booleano esperado");
 		n.s1.accept(this);
 		n.s2.accept(this);
 		return null;
@@ -152,11 +152,11 @@ public class CheckType implements TypeVisitor {
 	public Type visit(While n) {
 		Type t = n.e.accept(this);
 		if (t == null){
-			Error.getInstance().addErro("Expressão invalida, retorno booleano esperado", n.e.beginLine);
+			table.addError("Expressão invalida, retorno booleano esperado");
 			return null;
 		}
 		if(!(t.equals(new BooleanType())))
-			Error.getInstance().addErro("Expressão invalida, retorno booleano esperado", n.e.beginLine);
+			table.addError("Expressão invalida, retorno booleano esperado");
 		n.s.accept(this);
 		return null;
 
@@ -165,30 +165,27 @@ public class CheckType implements TypeVisitor {
 	public Type visit(Print n){
 		Type t = n.e.accept(this);
 		if (t == null){
-			Error.getInstance().addErro("Expressão invalida, retorno inteiro ou boleano esperado", n.e.beginLine);
+			table.addError("Expressão invalida, retorno inteiro ou boleano esperado");
 			return null;
 		}
 		if(!(t.equals(new BooleanType())) && !(t.equals(new IntegerType())))
-			Error.getInstance().addErro("Expressão invalida, retorno inteiro ou boleano esperado", n.e.beginLine);
+			table.addError("Expressão invalida, retorno inteiro ou boleano esperado");
 		return null;
 	}
 
 	public Type visit(Assign n) {
 		Type typeLeft = table.lookUp(Symbol.symbol(n.i.s));
 		if(typeLeft==null){
-			Error.getInstance().addErro("Variavel " +n.i.s +" nao declarada", n.i.beginLine);
-			//Error.getInstance().print();
-			//System.out.println("SAINDO DO PROGRAMA");
-			//System.exit(1);
+			table.addError("Variavel " +n.i.s +" nao declarada");
 		}
 		Type typeRight = n.e.accept(this);
 		if (typeRight == null){
-			Error.getInstance().addErro("Expressão invalida, retorno de valor esperado", n.e.beginLine);
+			table.addError("Expressão invalida, retorno de valor esperado");
 		}
 		
 		if(typeLeft==null||typeRight==null) return null;
 		if(!typeLeft.equals(typeRight)){
-			Error.getInstance().addErro("Atribuicao invalida, tipos conflitantes", n.i.beginLine);
+			table.addError("Atribuicao invalida, tipos conflitantes");
 		}	
 		return null;
 	}
@@ -197,125 +194,125 @@ public class CheckType implements TypeVisitor {
 		Type typeId, typeExp, typeRight;		
 		typeId = n.i.accept(this);
 		if (typeId == null){
-			Error.getInstance().addErro("Expressão invalida, array esperado", n.i.beginLine);
+			table.addError("Expressão invalida, array esperado");
 			return null;
 		}
 		if(!(typeId.equals(new IntArrayType()))){
-			Error.getInstance().addErro("Expressão invalida, array esperado", n.i.beginLine);
+			table.addError("Expressão invalida, array esperado");
 			return null;
 		}
 		typeExp = n.e1.accept(this);
 		if (typeExp == null){
-			Error.getInstance().addErro("Expressão invalida, valor inteiro esperado", n.e1.beginLine);
+			table.addError("Expressão invalida, valor inteiro esperado");
 			return null;
 		}
 		
 		if(!typeExp.equals(new IntegerType()))
-			Error.getInstance().addErro("Expressão invalida, valor inteiro esperado", n.e1.beginLine);	
+			table.addError("Expressão invalida, valor inteiro esperado");	
 		typeRight = n.e2.accept(this);
 		
 		if (typeRight == null){
-			Error.getInstance().addErro("Expressão invalida, valor inteiro esperado", n.e1.beginLine);
+			table.addError("Expressão invalida, valor inteiro esperado");
 			return null;
 		}
 		
 		if(!typeRight.equals(new IntegerType()))
-			Error.getInstance().addErro("Atribuicao invalida, tipos conflitantes", n.i.beginLine);	
+			table.addError("Atribuicao invalida, tipos conflitantes");	
 		return null;
 	}
 
 	public Type visit(And n) {
 		Type type = n.e1.accept(this);
 		if(type==null){ 
-			Error.getInstance().addErro("Expressão invalida, booleano esperado", n.e1.beginLine);
+			table.addError("Expressão invalida, booleano esperado");
 			return null;
 		}
 		
 		if(!type.equals(new BooleanType()))
-			Error.getInstance().addErro("Expressão invalida, booleano esperado", n.e1.beginLine);
+			table.addError("Expressão invalida, booleano esperado");
 		type = n.e2.accept(this);
 		if(type==null){
-			Error.getInstance().addErro("Expressão invalida, booleano esperado", n.e1.beginLine);
+			table.addError("Expressão invalida, booleano esperado");
 			return null;
 		}
 		if(!type.equals(new BooleanType()))
-			Error.getInstance().addErro("Expressão invalida, booleano esperado", n.e2.beginLine);
+			table.addError("Expressão invalida, booleano esperado");
 		return new BooleanType();
 	}
 
 	public Type visit(LessThan n) {
 		Type type = n.e1.accept(this);
 		if(type==null){ 
-			Error.getInstance().addErro("Expressão invalida, inteiro esperado", n.e1.beginLine);
+			table.addError("Expressão invalida, inteiro esperado");
 			return null;
 		}
 		if(!type.equals(new IntegerType()))
-			Error.getInstance().addErro("Expressão invalida, inteiro esperado", n.e1.beginLine);
+			table.addError("Expressão invalida, inteiro esperado");
 			
 		type = n.e2.accept(this);
 		if(type==null){
-			Error.getInstance().addErro("Expressão invalida, inteiro esperado", n.e1.beginLine);	
+			table.addError("Expressão invalida, inteiro esperado");	
 			return null;
 		}
 		if(!type.equals( new IntegerType()))
-			Error.getInstance().addErro("Expressão invalida, inteiro esperado", n.e2.beginLine);
+			table.addError("Expressão invalida, inteiro esperado");
 		return new BooleanType();
 	}
 
 	public Type visit(Plus n) {
 		Type type = n.e1.accept(this);
 		if(type==null){ 
-			Error.getInstance().addErro("Expressão invalida, inteiro esperado", n.e1.beginLine);
+			table.addError("Expressão invalida, inteiro esperado");
 			return null;
 		}
 		if(!type.equals(new IntegerType()))
-			Error.getInstance().addErro("Expressão invalida, inteiro esperado", n.e1.beginLine);
+			table.addError("Expressão invalida, inteiro esperado");
 			
 		type = n.e2.accept(this);
 		if(type==null){ 
-			Error.getInstance().addErro("Expressão invalida, inteiro esperado", n.e1.beginLine);	
+			table.addError("Expressão invalida, inteiro esperado");	
 			return null;
 		}
 		if(!type.equals( new IntegerType()))
-			Error.getInstance().addErro("Expressão invalida, inteiro esperado", n.e2.beginLine);
+			table.addError("Expressão invalida, inteiro esperado");
 		return new IntegerType();
 	}
 
 	public Type visit(Minus n) {
 		Type type = n.e1.accept(this);
 		if(type==null){
-			Error.getInstance().addErro("Expressão invalida, inteiro esperado", n.e1.beginLine);
+			table.addError("Expressão invalida, inteiro esperado");
 			return null;
 		}
 		if(!type.equals(new IntegerType()))
-			Error.getInstance().addErro("Expressão invalida, inteiro esperado", n.e1.beginLine);
+			table.addError("Expressão invalida, inteiro esperado");
 			
 		type = n.e2.accept(this);
 		if(type==null){
-			Error.getInstance().addErro("Expressão invalida, inteiro esperado", n.e1.beginLine);
+			table.addError("Expressão invalida, inteiro esperado");
 			return null;
 		}		
 		if(!type.equals( new IntegerType()))
-			Error.getInstance().addErro("Expressão invalida, inteiro esperado", n.e2.beginLine);
+			table.addError("Expressão invalida, inteiro esperado");
 		return new IntegerType();
 	}
 
 	public Type visit(Times n) {
 		Type type = n.e1.accept(this);
 		if(type==null) {
-			Error.getInstance().addErro("Expressão invalida, inteiro esperado", n.e1.beginLine);
+			table.addError("Expressão invalida, inteiro esperado");
 			return null;
 		}
 		if(!type.equals(new IntegerType()))
-			Error.getInstance().addErro("Expressão invalida, inteiro esperado", n.e1.beginLine);
+			table.addError("Expressão invalida, inteiro esperado");
 			
 		type = n.e2.accept(this);
 		if(type==null){
-			Error.getInstance().addErro("Expressão invalida, inteiro esperado", n.e1.beginLine);	
+			table.addError("Expressão invalida, inteiro esperado");	
 			return null;
 		}
 		if(!type.equals( new IntegerType()))
-			Error.getInstance().addErro("Expressão invalida, inteiro esperado", n.e2.beginLine);
+			table.addError("Expressão invalida, inteiro esperado");
 		return new IntegerType();
     }
 
@@ -323,15 +320,15 @@ public class CheckType implements TypeVisitor {
 		Type typeLeft,typeRight;
 		typeLeft = n.e1.accept(this);
 		if(typeLeft==null){
-			Error.getInstance().addErro("Expressão invalida, array esperado", n.e1.beginLine);
+			table.addError("Expressão invalida, array esperado");
 			return null;
 		}			
 		if(!typeLeft.equals(new IntArrayType()))
-			Error.getInstance().addErro("Tipo Array esperado", n.e1.beginLine);
+			table.addError("Tipo Array esperado");
 		
 		typeRight = n.e2.accept(this);
 		if(!typeRight.equals(new IntegerType()))
-			Error.getInstance().addErro("Apenas inteiros podem indexar vetores", n.e2.beginLine);	
+			table.addError("Apenas inteiros podem indexar vetores");	
 		return new IntegerType();
 	}
 
@@ -339,23 +336,23 @@ public class CheckType implements TypeVisitor {
 		Type type;
 		type = n.e.accept(this);
 		if(type==null){
-			Error.getInstance().addErro("Expressão invalida, array esperado", n.e.beginLine);
+			table.addError("Expressão invalida, array esperado");
 			return null;
 		}
 		if(!type.equals(new IntArrayType()))
-			Error.getInstance().addErro("Tipo Array esperado", n.e.beginLine);	
+			table.addError("Tipo Array esperado");	
 		return new IntegerType();
 	}
 
 	public Type visit(Call n) {
-		Type type;
+		Type type,t1;
 		type = n.e.accept(this);
 		if(type==null){
-			Error.getInstance().addErro ("Expressão invalida, referência a objeto esperada", n.i.beginLine);
+			table.addError("Expressão invalida, referência a objeto esperada");
 			return null;
 		}
 		if(!type.equals(new IdentifierType("x"))&&!type.equals(new This())){
-			Error.getInstance().addErro ("Expressão invalida, referência a objeto esperada", n.i.beginLine);
+			table.addError("Expressão invalida, referência a objeto esperada");
 			return null;
 		}
 	
@@ -365,22 +362,24 @@ public class CheckType implements TypeVisitor {
 		else meth = table.getMethod(Symbol.symbol(((IdentifierType)type).s), Symbol.symbol(n.i.s));
 		
 		if(meth == null){
-			Error.getInstance().addErro("Metodo não declarado : " + n.i.s, n.i.beginLine);
+			table.addError("Metodo não declarado : " + n.i.s);
 			return null;
 		}
 		
+		
 		if(n.el.size()<meth.getPramsType().size()){
-			Error.getInstance().addErro("Faltam parametros para o metodo : " + n.i.s, n.i.beginLine);
-			return meth.getReturnType();
+			table.addError("Faltam parametros para o metodo : " + n.i.s);
 		}else if(n.el.size()>meth.getPramsType().size()) {
-			Error.getInstance().addErro("Excesso de parametros para o metodo : " + n.i.s, n.i.beginLine);
-			return meth.getReturnType();
-		}	
-		for(int i=0; i<meth.getPramsType().size(); i++){
-			if(!n.el.elementAt(i).accept(this).equals(meth.getPramsType().elementAt(i).t)){
-				Error.getInstance().addErro("Paramentro com conflito de tipos, tipo esperado " + meth.getPramsType().elementAt(i).t.toString(), n.i.beginLine);
+			table.addError("Excesso de parametros para o metodo : " + n.i.s);
+		}
+		
+		for(int i=0; i<n.el.size(); i++){
+			t1= n.el.elementAt(i).accept(this);
+			if(n.el.size()==meth.getPramsType().size()&&t1!=null && !t1.equals(meth.getPramsType().elementAt(i).t)){
+			table.addError("Paramentro com conflito de tipos, tipo esperado " + meth.getPramsType().elementAt(i).t.toString());
 			}
 		}
+		
 		return meth.getReturnType();
 	}
 
@@ -400,12 +399,8 @@ public class CheckType implements TypeVisitor {
 		Symbol s = Symbol.symbol(n.s);
 		Type type = table.lookUp(s);
 		if(type == null){
-			//if(table.isClass(s))return new IdentifierType(n.s);
-			Error.getInstance().addErro("Tipo nao declarado : " + n.s, n.beginLine);
+			table.addError("Variavel não declarada : " + n.s);
 			return type;
-			//Error.getInstance().print();
-			//System.err.println("EXECUCAO DO COMPILAR INTERROMPIDA");
-			//System.exit(1);
 		}
 		return type;
 	}
@@ -419,11 +414,11 @@ public class CheckType implements TypeVisitor {
 	public Type visit(NewArray n) {
 		Type type = n.e.accept(this);
 		if(type==null){
-			Error.getInstance().addErro("Esperado tipo inteiro para essa expressão", n.beginLine);
+			table.addError("Esperado tipo inteiro para essa expressão");
 			return null;
 		}
 		if(!type.equals(new IntegerType()))
-			Error.getInstance().addErro("Esperado tipo inteiro para essa expressão", n.beginLine);
+			table.addError("Esperado tipo inteiro para essa expressão");
 		
 		return new IntArrayType();
 	}
@@ -431,17 +426,11 @@ public class CheckType implements TypeVisitor {
 	public Type visit(NewObject n) {
 		Type type = n.i.accept(this);
 		if(type==null){
-			Error.getInstance().addErro("Classe "+n.i.s+" nao declarada", n.i.beginLine);
+			table.addError("Classe "+n.i.s+" nao declarada");
 			return type;
-			//Error.getInstance().print();
-			//System.err.println("EXECUCAO DO COMPILAR INTERROMPIDA");
-			//System.exit(1);
 		}		
 		if(type.equals(new IntArrayType()) || type.equals(new IntegerType()) || type.equals(new BooleanType()) ){
-			Error.getInstance().addErro("Expressao invalida, identificador de classe esperado", n.i.beginLine);
-			//Error.getInstance().print();
-			//System.err.println("EXECUCAO DO COMPILAR INTERROMPIDA");
-			//System.exit(1);
+			table.addError("Expressao invalida, identificador de classe esperado");
 		}	
 		return type;
 	}
@@ -449,11 +438,11 @@ public class CheckType implements TypeVisitor {
 	public Type visit(Not n) {
 		Type type = n.e.accept(this);
 		if(type==null){
-			Error.getInstance().addErro("Expressão invalida, booleano esperado", n.e.beginLine);
+			table.addError("Expressão invalida, booleano esperado");
 			return null;
 		}
 		if(!type.equals(new BooleanType()))
-			Error.getInstance().addErro("Expressão invalida, booleano esperado", n.e.beginLine);
+			table.addError("Expressão invalida, booleano esperado");
 		return new BooleanType();
 	}
 
