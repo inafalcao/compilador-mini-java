@@ -1,7 +1,8 @@
 package symbolTable;
 
 import java.util.HashMap;
-import syntaxtree.Type;
+import syntaxtree.*;
+import java.util.Vector;
 
 
 public class Method {
@@ -12,9 +13,10 @@ public class Method {
 
 	private Symbol name;
 
-	private Type[] typeParam;
+	private Vector<Formal> typeParam;
 	
-	public Method(Symbol m, Type returnType) {
+	public Method(Symbol m, Vector<Formal> typeParamIn, Type returnType) {
+		typeParam = typeParamIn;
 		variables = new HashMap<Symbol, Type>();
 		name = m;
 		typeReturn = returnType;
@@ -32,7 +34,7 @@ public class Method {
 		return variables;
 	}
 	
-	public Type[] getPramsType(){
+	public Vector<Formal> getPramsType(){
 		return typeParam;
 	}
 

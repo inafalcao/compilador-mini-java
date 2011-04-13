@@ -369,18 +369,18 @@ public class CheckType implements TypeVisitor {
 			return null;
 		}
 		
-		/*if(n.el.size()<meth.getPramsType().length){
+		if(n.el.size()<meth.getPramsType().size()){
 			Error.getInstance().addErro("Faltam parametros para o metodo : " + n.i.s, n.i.beginLine);
 			return meth.getReturnType();
-		}else if(n.el.size()>meth.getPramsType().length) {
+		}else if(n.el.size()>meth.getPramsType().size()) {
 			Error.getInstance().addErro("Excesso de parametros para o metodo : " + n.i.s, n.i.beginLine);
 			return meth.getReturnType();
 		}	
-		for(int i=0; i<meth.getPramsType().length; i++){
-			if(!n.el.elementAt(i).accept(this).equals(meth.getPramsType()[i])){
-				Error.getInstance().addErro("Paramentro com conflito de tipos, tipo esperado " + meth.getPramsType()[i].toString(), n.i.beginLine);
+		for(int i=0; i<meth.getPramsType().size(); i++){
+			if(!n.el.elementAt(i).accept(this).equals(meth.getPramsType().elementAt(i).t)){
+				Error.getInstance().addErro("Paramentro com conflito de tipos, tipo esperado " + meth.getPramsType().elementAt(i).t.toString(), n.i.beginLine);
 			}
-		}*/
+		}
 		return meth.getReturnType();
 	}
 

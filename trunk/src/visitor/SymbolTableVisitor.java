@@ -3,6 +3,7 @@ package visitor;
 import error.Error;
 import symbolTable.Symbol;
 import symbolTable.SymbolTable;
+import java.util.Vector;
 import syntaxtree.*;
 
 
@@ -32,7 +33,7 @@ public class SymbolTableVisitor implements Visitor {
 		table.addClass(clas);
 		table.beginScope(clas);
 		Symbol name = Symbol.symbol("main");
-		table.addMethod(new NullType(), name);
+		table.addMethod(new NullType(), new Vector(), name);
 		table.beginScope(name);
 		table.addVariable(Symbol.symbol(n.i2.s), new StringArrayType());
 		table.endScope();
@@ -78,7 +79,7 @@ public class SymbolTableVisitor implements Visitor {
 	public void visit(MethodDecl n) {
 		Type returnType = n.t;
 		Symbol name = Symbol.symbol(n.i.s);
-		table.addMethod(returnType, name);
+		table.addMethod(returnType, n.fl.lista(),name);
 		table.beginScope(name);
 		for(int i = 0; i < n.fl.size(); i++){
 			n.fl.elementAt(i).accept(this);

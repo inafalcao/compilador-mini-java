@@ -3,6 +3,7 @@ package symbolTable;
 import error.Error;
 
 import java.util.HashMap;
+import java.util.Vector;
 import syntaxtree.Type;
 
 
@@ -37,10 +38,10 @@ public class SymbolTable {
 		}
 	}
 	
-	public void addMethod(Type returnType, Symbol method){
+	public void addMethod(Type returnType, Vector listIn, Symbol method){
 		if(currentClass.getMethods().containsKey(method))System.out.println("Metodo:"+method.toString()+" j� declarada");
 		else
-			currentClass.addMethod(method,returnType);
+			currentClass.addMethod(method, listIn, returnType);
 	}
 	
 	

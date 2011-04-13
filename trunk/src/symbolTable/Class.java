@@ -1,6 +1,7 @@
 package symbolTable;
 
 import java.util.HashMap;
+import java.util.Vector;
 import error.Error;
 import syntaxtree.*;
 
@@ -44,8 +45,8 @@ public class Class {
 	}
 
 	
-	public void addMethod(Symbol m, Type returnType) {
-		Method mt = new Method(m, returnType);
+	public void addMethod(Symbol m, Vector listIn, Type returnType) {
+		Method mt = new Method(m, listIn, returnType);
 		methods.put(m, mt);
 	}
 

@@ -16,6 +16,10 @@ public class FormalList {
    public Formal elementAt(int i)  { 
       return (Formal)list.elementAt(i); 
    }
+   
+   public Vector lista(){
+	   return list;
+   }
 
    public int size() { 
       return list.size(); 
