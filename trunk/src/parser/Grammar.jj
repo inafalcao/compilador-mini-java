@@ -1,6 +1,6 @@
 /**
  * JavaCC template file created by SF JavaCC plugin 1.5.17+ wizard for JavaCC 1.5.0+
- */options{  JDK_VERSION = "1.5";  static = true;}PARSER_BEGIN(MiniJavaParser)package parser;
+ */options{  JDK_VERSION = "1.5";  static = false;}PARSER_BEGIN(MiniJavaParser)package parser;
 import syntaxtree.*;
 
 public class MiniJavaParser {
