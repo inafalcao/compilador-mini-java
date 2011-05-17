@@ -36,7 +36,7 @@ public class LinearTree {
 	
 	//reading file
 	try {
-		Reader in = new FileReader("files/lineartree.java");
+		Reader in = new FileReader("files/linearsearch.java");
 	
 		//fase de parser
 		parser = new MiniJavaParser(in);

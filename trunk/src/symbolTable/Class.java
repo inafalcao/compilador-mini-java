@@ -32,9 +32,9 @@ public class Class {
 		type = new IdentifierType(name.toString());
 		variables = new HashMap<Symbol, Type>();
 		methods = new HashMap<Symbol, Method>();
-		extender =  null;
+		extender =  ext;
 		if (name.equals(ext)) {
-			extender = ext;
+			extender = null;
 			Error.getInstance().addErro("Classe: "+ name.toString()+" esta estendendo ela mesma");
 		}//end if
 	}

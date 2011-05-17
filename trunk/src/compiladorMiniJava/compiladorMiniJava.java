@@ -13,7 +13,6 @@ public class compiladorMiniJava {
 	public static void main(String[] args) throws ParseException{
 		Scanner input = new Scanner(System.in);
 			int op = 0;
-		do{
 			
 			System.out.println("BEM VINDO AO MINIJAVA COMPILADOR");
 			System.out.println("@AUTORES: CAMILA FERREIRA / DANUSA RIBEIRO/ LUCAS ASSUNÇÃO / PAULO ALVES");
@@ -46,11 +45,11 @@ public class compiladorMiniJava {
 			case 6:
 				TreeVisitor.treeVisitor();
 				break;
+			case 7 : break;
 			default:
 				System.out.println("VALOR INVALIDO"); 
 				break;
-			}//fim switch   
-		}while(op != 7);	
+			}
 	}//ends main
 
 }

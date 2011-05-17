@@ -61,7 +61,8 @@ public class SymbolTableVisitor implements Visitor {
 	
 	public void visit(ClassDeclExtends n) {
 		Symbol clas = Symbol.symbol(n.i.s);
-		table.addClass(clas);
+		Symbol ext = Symbol.symbol(n.j.s);
+		table.addClass(clas,ext);
 		table.beginScope(clas);
 		for(int i = 0; i < n.vl.size(); i++){
 			n.vl.elementAt(i).accept(this);
