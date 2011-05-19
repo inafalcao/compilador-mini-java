@@ -10,7 +10,8 @@ public class Class {
 
 	private HashMap<Symbol, Type> variables;
 
-	private HashMap<Symbol, Method> methods;
+	private Vector<Method> methods;
+	private Vector<Symbol> methodsSymbols; 
 
 	private Symbol extender;
 
@@ -23,7 +24,8 @@ public class Class {
 		this.name = name;
 		type = new IdentifierType(name.toString());
 		variables = new HashMap<Symbol, Type>();
-		methods = new HashMap<Symbol, Method>();
+		methods = new Vector<Method>();
+		methodsSymbols = new Vector<Symbol>();
 		extender = null;
 	}
 	
@@ -31,7 +33,8 @@ public class Class {
 		this.name = name;
 		type = new IdentifierType(name.toString());
 		variables = new HashMap<Symbol, Type>();
-		methods = new HashMap<Symbol, Method>();
+		methods = new Vector<Method>();
+		methodsSymbols = new Vector<Symbol>();
 		extender =  ext;
 		if (name.equals(ext)) {
 			extender = null;
@@ -45,17 +48,30 @@ public class Class {
 	}
 
 	
-	public void addMethod(Symbol m, Vector listIn, Type returnType) {
+	public Method addMethod(Symbol m, Vector<Formal> listIn, Type returnType) {
 		Method mt = new Method(m, listIn, returnType);
-		methods.put(m, mt);
+		methods.add(mt);
+		methodsSymbols.add(m);
+		return mt;
 	}
 
 	public void addVariable(Symbol variable, Type type2) {
 		variables.put(variable, type2);
 	}
+	
+	public Vector<Method> getMethodVector(Symbol meth) {
+		Vector<Method> meths = new Vector<Method>();
+		for(int i =0; i< methodsSymbols.size();i++){
+			if(meth.equals(methodsSymbols.elementAt(i))) meths.add(methods.elementAt(i));
+		}
+		return meths;
+	}
 
-	public Method getMethod(Symbol meth) {
-		return methods.get(meth);
+	public Method getMethodMain(Symbol meth) {
+		for(int i =0; i< methodsSymbols.size();i++){
+			if(meth.equals(methodsSymbols.elementAt(i))) return methods.elementAt(i);
+		}
+		return null;
 	}
 
 	public Symbol getName() {
@@ -66,7 +82,7 @@ public class Class {
 		return variables;
 	}
 
-	public HashMap<Symbol, Method> getMethods() {
+	public Vector<Method> getMethods() {
 		return methods;
 	}
 

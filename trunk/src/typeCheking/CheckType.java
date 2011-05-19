@@ -4,6 +4,7 @@ package typeCheking;
 import symbolTable.*;
 import syntaxtree.*;
 import error.Error;
+import java.util.Vector;
 import visitor.TypeVisitor;
 
 
@@ -24,35 +25,35 @@ public class CheckType implements TypeVisitor {
 	}
 
 	public Type visit(MainClass n) {
-		table.beginScope(Symbol.symbol(n.i1.s));
-		table.beginScope(Symbol.symbol("main"));
+		table.beginScopeClass(Symbol.symbol(n.i1.s));
+		table.beginScopeMethod(table.getMethodMain(Symbol.symbol(n.i1.s),Symbol.symbol("main")));
 		n.s.accept(this);
-		table.endScope();
-		table.endScope();
+		table.endScopeMethod();
+		table.endScopeClass();
 		return null;
 	}
 
 	public Type visit(ClassDeclSimple n) {
-		table.beginScope(Symbol.symbol(n.i.s));
+		table.beginScopeClass(Symbol.symbol(n.i.s));
 		for(int i = 0; i < n.vl.size(); i++){
 			n.vl.elementAt(i).accept(this);
 		}
 		for(int i = 0; i < n.ml.size(); i++){
 			n.ml.elementAt(i).accept(this);
 		}
-		table.endScope();
+		table.endScopeClass();
 		return null;
 	}
 
 	public Type visit(ClassDeclExtends n) {
-		table.beginScope(Symbol.symbol(n.i.s));
+		table.beginScopeClass(Symbol.symbol(n.i.s));
 		for(int i = 0; i < n.vl.size(); i++){
 			n.vl.elementAt(i).accept(this);
 		}
 		for(int i = 0; i < n.ml.size(); i++){
 			n.ml.elementAt(i).accept(this);
 		}
-		table.endScope();		
+		table.endScopeClass();		
 		return null;
 	}
 
@@ -68,7 +69,8 @@ public class CheckType implements TypeVisitor {
 	}
 
 	public Type visit(MethodDecl n) {
-		table.beginScope(Symbol.symbol(n.i.s));
+		Method meth = table.getMethod(n);
+		table.beginScopeMethod(meth);
 		for(int i = 0; i < n.fl.size(); i++){
 			n.fl.elementAt(i).accept(this);
 		}
@@ -87,7 +89,7 @@ public class CheckType implements TypeVisitor {
 		for(int i = 0; i < n.sl.size(); i++){
 			n.sl.elementAt(i).accept(this);
 		}
-		table.endScope();
+		table.endScopeMethod();
 		return null;
 	}
 
@@ -357,30 +359,30 @@ public class CheckType implements TypeVisitor {
 		}
 	
 		Method meth;
+		Vector<Method> meths = new Vector<Method>();
 		
-		if(type.equals(new This())) meth = table.getMethod(Symbol.symbol(table.getCurrentClass().toString()), Symbol.symbol(n.i.s));
-		else meth = table.getMethod(Symbol.symbol(((IdentifierType)type).s), Symbol.symbol(n.i.s));
-		
-		if(meth == null){
-			table.addError("Metodo não declarado : " + n.i.s);
-			return null;
-		}
-		
-		
-		if(n.el.size()<meth.getPramsType().size()){
-			table.addError("Faltam parametros para o metodo : " + n.i.s);
-		}else if(n.el.size()>meth.getPramsType().size()) {
-			table.addError("Excesso de parametros para o metodo : " + n.i.s);
-		}
-		
-		for(int i=0; i<n.el.size(); i++){
-			t1= n.el.elementAt(i).accept(this);
-			if(n.el.size()==meth.getPramsType().size()&&t1!=null && !t1.equals(meth.getPramsType().elementAt(i).t)){
-			table.addError("Paramentro com conflito de tipos, tipo esperado " + meth.getPramsType().elementAt(i).t.toString());
+		if(type.equals(new This())) meth = table.getCurrentMethod();
+		else meths = table.getMethodVectorClass((IdentifierType)type,Symbol.symbol(n.i.s));
+
+		boolean exists = true;
+		for(int i=0;i<meths.size();i++){
+			exists = true;
+			meth = meths.elementAt(i);
+			for(int j=0; j<n.el.size(); j++){
+				t1= n.el.elementAt(j).accept(this);
+				if((n.el.size()!=meth.getPramsType().size())||(t1==null)){ 
+					exists = false;
+					break;
+				}
+				if(!t1.equals(meth.getPramsType().elementAt(j).t)){
+					exists = false;
+					break;
+				}
 			}
+			if(exists) return meth.getReturnType();
 		}
-		
-		return meth.getReturnType();
+		table.addError("Metodo "+n.i.toString()+" inexistente na classe "+ ((IdentifierType)type).s);
+		return null;
 	}
 
 	public Type visit(IntegerLiteral n) {

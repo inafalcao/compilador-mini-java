@@ -3,6 +3,7 @@ package visitor;
 import error.Error;
 import symbolTable.Symbol;
 import symbolTable.SymbolTable;
+import symbolTable.Method;
 import java.util.Vector;
 import syntaxtree.*;
 
@@ -31,13 +32,13 @@ public class SymbolTableVisitor implements Visitor {
 	public void visit(MainClass n) {
 		Symbol clas = Symbol.symbol(n.i1.s);
 		table.addClass(clas);
-		table.beginScope(clas);
+		table.beginScopeClass(clas);
 		Symbol name = Symbol.symbol("main");
-		table.addMethod(new NullType(), new Vector(), name);
-		table.beginScope(name);
+		Method meth = table.addMethod(new NullType(), new Vector<Formal>(), name);
+		table.beginScopeMethod(meth);
 		table.addVariable(Symbol.symbol(n.i2.s), new StringArrayType());
-		table.endScope();
-		table.endScope();
+		table.endScopeMethod();
+		table.endScopeClass();
 	}
 
 	//this methods are to visit each node and 
@@ -49,28 +50,28 @@ public class SymbolTableVisitor implements Visitor {
 		}
 		Symbol clas = Symbol.symbol(n.i.s);
 		table.addClass(clas);
-		table.beginScope(clas);
+		table.beginScopeClass(clas);
 		for(int i = 0; i < n.vl.size(); i++){
 			n.vl.elementAt(i).accept(this);
 		}
 		for(int j = 0; j < n.ml.size(); j++){
 			n.ml.elementAt(j).accept(this);
 		}
-		table.endScope();
+		table.endScopeClass();
 	}
 	
 	public void visit(ClassDeclExtends n) {
 		Symbol clas = Symbol.symbol(n.i.s);
 		Symbol ext = Symbol.symbol(n.j.s);
 		table.addClass(clas,ext);
-		table.beginScope(clas);
+		table.beginScopeClass(clas);
 		for(int i = 0; i < n.vl.size(); i++){
 			n.vl.elementAt(i).accept(this);
 		}
 		for(int j = 0; j < n.ml.size(); j++){
 			n.ml.elementAt(j).accept(this);
 		}
-		table.endScope();
+		table.endScopeClass();
 	}
 
 	public void visit(VarDecl n) {
@@ -80,15 +81,16 @@ public class SymbolTableVisitor implements Visitor {
 	public void visit(MethodDecl n) {
 		Type returnType = n.t;
 		Symbol name = Symbol.symbol(n.i.s);
-		table.addMethod(returnType, n.fl.lista(),name);
-		table.beginScope(name);
+		Method meth = table.addMethod(returnType, n.fl.lista(),name);
+		if(meth == null) return;
+		table.beginScopeMethod(meth);
 		for(int i = 0; i < n.fl.size(); i++){
 			n.fl.elementAt(i).accept(this);
 		}
 		for(int i = 0; i< n.vl.size(); i++){
 			n.vl.elementAt(i).accept(this);
 		}
-		table.endScope();
+		table.endScopeMethod();
 	}
 
 	public void visit(Formal n) {
