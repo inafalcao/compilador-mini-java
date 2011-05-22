@@ -1,137 +1,146 @@
-package Canon;
+package canon;
 
-class MoveCall extends Tree.Stm {
-  Tree.TEMP dst;
-  Tree.CALL src;
-  MoveCall(Tree.TEMP d, Tree.CALL s) {dst=d; src=s;}
-  public Tree.ExpList kids() {return src.kids();}
-  public Tree.Stm build(Tree.ExpList kids) {
-	return new Tree.MOVE(dst, src.build(kids));
+import treeIR.ExpList;
+
+class MoveCall extends treeIR.Stm {
+  treeIR.TEMP dst;
+  treeIR.CALL src;
+  MoveCall(treeIR.TEMP d, treeIR.CALL s) {dst=d; src=s;}
+  public treeIR.ExpList kids() {return src.kids();}
+  public treeIR.Stm build(treeIR.ExpList kids) {
+	return new treeIR.MOVE(dst, src.build(kids));
   }
-}   
+  public String print(){
+	  return "fazer";
+  }   
   
-class ExpCall extends Tree.Stm {
-  Tree.CALL call;
-  ExpCall(Tree.CALL c) {call=c;}
-  public Tree.ExpList kids() {return call.kids();}
-  public Tree.Stm build(Tree.ExpList kids) {
-	return new Tree.EXP(call.build(kids));
+class ExpCall extends treeIR.Stm {
+  treeIR.CALL call;
+  ExpCall(treeIR.CALL c) {call=c;}
+  public treeIR.ExpList kids() {return call.kids();}
+  public treeIR.Stm build(treeIR.ExpList kids) {
+	return new treeIR.EXPSTM(call.build(kids));
+  }
+  public String print(){
+	  return "fazer";
   }
 }   
   
 class StmExpList {
-  Tree.Stm stm;
-  Tree.ExpList exps;
-  StmExpList(Tree.Stm s, Tree.ExpList e) {stm=s; exps=e;}
+  treeIR.Stm stm;
+  treeIR.ExpList exps;
+  StmExpList(treeIR.Stm s, treeIR.ExpList e) {stm=s; exps=e;}
 }
 
 public class Canon {
   
- static boolean isNop(Tree.Stm a) {
-   return a instanceof Tree.EXP
-          && ((Tree.EXP)a).exp instanceof Tree.CONST;
+ static boolean isNop(treeIR.Stm a) {
+   return a instanceof treeIR.EXPSTM
+          && ((treeIR.EXPSTM)a).exp instanceof treeIR.CONST;
  }
 
- static Tree.Stm seq(Tree.Stm a, Tree.Stm b) {
+ static treeIR.Stm seq(treeIR.Stm a, treeIR.Stm b) {
     if (isNop(a)) return b;
     else if (isNop(b)) return a;
-    else return new Tree.SEQ(a,b);
+    else return new treeIR.SEQ(a,b);
  }
 
- static boolean commute(Tree.Stm a, Tree.Exp b) {
+ static boolean commute(treeIR.Stm a, treeIR.Exp b) {
     return isNop(a)
-        || b instanceof Tree.NAME
-        || b instanceof Tree.CONST;
+        || b instanceof treeIR.NAME
+        || b instanceof treeIR.CONST;
  }
 
- static Tree.Stm do_stm(Tree.SEQ s) { 
+ static treeIR.Stm do_stm(treeIR.SEQ s) { 
 	return seq(do_stm(s.left), do_stm(s.right));
  }
 
- static Tree.Stm do_stm(Tree.MOVE s) { 
-	if (s.dst instanceof Tree.TEMP 
-	     && s.src instanceof Tree.CALL) 
-		return reorder_stm(new MoveCall((Tree.TEMP)s.dst,
-						(Tree.CALL)s.src));
-	else if (s.dst instanceof Tree.ESEQ)
-	    return do_stm(new Tree.SEQ(((Tree.ESEQ)s.dst).stm,
-					new Tree.MOVE(((Tree.ESEQ)s.dst).exp,
+ static treeIR.Stm do_stm(treeIR.MOVE s) { 
+	if (s.dst instanceof treeIR.TEMP 
+	     && s.src instanceof treeIR.CALL) 
+		return reorder_stm(new MoveCall((treeIR.TEMP)s.dst,
+						(treeIR.CALL)s.src));
+	else if (s.dst instanceof treeIR.ESEQ)
+	    return do_stm(new treeIR.SEQ(((treeIR.ESEQ)s.dst).stm,
+					new treeIR.MOVE(((treeIR.ESEQ)s.dst).exp,
 						  s.src)));
 	else return reorder_stm(s);
  }
 
- static Tree.Stm do_stm(Tree.EXP s) { 
-	if (s.exp instanceof Tree.CALL)
-	       return reorder_stm(new ExpCall((Tree.CALL)s.exp));
+ static treeIR.Stm do_stm(treeIR.EXP s) { 
+	if (s.exp instanceof treeIR.CALL)
+	       return reorder_stm(new ExpCall((treeIR.CALL)s.exp));
 	else return reorder_stm(s);
  }
 
- static Tree.Stm do_stm(Tree.Stm s) {
-     if (s instanceof Tree.SEQ) return do_stm((Tree.SEQ)s);
-     else if (s instanceof Tree.MOVE) return do_stm((Tree.MOVE)s);
-     else if (s instanceof Tree.EXP) return do_stm((Tree.EXP)s);
+ static treeIR.Stm do_stm(treeIR.Stm s) {
+     if (s instanceof treeIR.SEQ) return do_stm((treeIR.SEQ)s);
+     else if (s instanceof treeIR.MOVE) return do_stm((treeIR.MOVE)s);
+     else if (s instanceof treeIR.EXPSTM) return do_stm((treeIR.EXP)s);
      else return reorder_stm(s);
  }
 
- static Tree.Stm reorder_stm(Tree.Stm s) {
+ static treeIR.Stm reorder_stm(treeIR.Stm s) {
      StmExpList x = reorder(s.kids());
      return seq(x.stm, s.build(x.exps));
  }
 
- static Tree.ESEQ do_exp(Tree.ESEQ e) {
-      Tree.Stm stms = do_stm(e.stm);
-      Tree.ESEQ b = do_exp(e.exp);
-      return new Tree.ESEQ(seq(stms,b.stm), b.exp);
+ static treeIR.ESEQ do_exp(treeIR.ESEQ e) {
+      treeIR.Stm stms = do_stm(e.stm);
+      treeIR.ESEQ b = do_exp(e.exp);
+      return new treeIR.ESEQ(seq(stms,b.stm), b.exp);
   }
 
- static Tree.ESEQ do_exp (Tree.Exp e) {
-       if (e instanceof Tree.ESEQ) return do_exp((Tree.ESEQ)e);
+ static treeIR.ESEQ do_exp (treeIR.Exp e) {
+       if (e instanceof treeIR.ESEQ) return do_exp((treeIR.ESEQ)e);
        else return reorder_exp(e);
  }
          
- static Tree.ESEQ reorder_exp (Tree.Exp e) {
+ static treeIR.ESEQ reorder_exp (treeIR.Exp e) {
      StmExpList x = reorder(e.kids());
-     return new Tree.ESEQ(x.stm, e.build(x.exps));
+     return new treeIR.ESEQ(x.stm, e.build(x.exps));
  }
 
- static StmExpList nopNull = new StmExpList(new Tree.EXP(new Tree.CONST(0)),null);
+ static StmExpList nopNull = new StmExpList(new treeIR.EXPSTM(new treeIR.CONST(0)),null);
 
- static StmExpList reorder(Tree.ExpList exps) {
+ static StmExpList reorder(treeIR.ExpList exps) {
      if (exps==null) return nopNull;
      else {
-       Tree.Exp a = exps.head;
-       if (a instanceof Tree.CALL) {
-         Temp.Temp t = new Temp.Temp();
-	 Tree.Exp e = new Tree.ESEQ(new Tree.MOVE(new Tree.TEMP(t), a),
-				    new Tree.TEMP(t));
-         return reorder(new Tree.ExpList(e, exps.tail));
+       treeIR.Exp a = exps.head;
+       if (a instanceof treeIR.CALL) {
+    	   activationRegister.temp.Temp t = new activationRegister.temp.Temp();
+	 treeIR.Exp e = new treeIR.ESEQ(new treeIR.MOVE(new treeIR.TEMP(t), a),
+				    new treeIR.TEMP(t));
+         return reorder(new treeIR.ExpList(e, (ExpList) exps.tail));
+         //adicionei um cast aqui tb, nao sei se ta certo
        } else {
-	 Tree.ESEQ aa = do_exp(a);
-	 StmExpList bb = reorder(exps.tail);
+	 treeIR.ESEQ aa = do_exp(a);
+	 StmExpList bb = reorder((ExpList) exps.tail);
 	 if (commute(bb.stm, aa.exp))
 	      return new StmExpList(seq(aa.stm,bb.stm), 
-				    new Tree.ExpList(aa.exp,bb.exps));
+				    new treeIR.ExpList(aa.exp,bb.exps));
 	 else {
-	   Temp.Temp t = new Temp.Temp();
+		 activationRegister.temp.Temp t = new activationRegister.temp.Temp();
 	   return new StmExpList(
 			  seq(aa.stm, 
-			    seq(new Tree.MOVE(new Tree.TEMP(t),aa.exp),
+			    seq(new treeIR.MOVE(new treeIR.TEMP(t),aa.exp),
 				 bb.stm)),
-			  new Tree.ExpList(new Tree.TEMP(t), bb.exps));
+			  new treeIR.ExpList(new treeIR.TEMP(t), bb.exps));
 	 }
        }
      }
  }
         
- static Tree.StmList linear(Tree.SEQ s, Tree.StmList l) {
+ static treeIR.StmList linear(treeIR.SEQ s, treeIR.StmList l) {
       return linear(s.left,linear(s.right,l));
  }
- static Tree.StmList linear(Tree.Stm s, Tree.StmList l) {
-    if (s instanceof Tree.SEQ) return linear((Tree.SEQ)s, l);
-    else return new Tree.StmList(s,l);
+ static treeIR.StmList linear(treeIR.Stm s, treeIR.StmList l) {
+    if (s instanceof treeIR.SEQ) return linear((treeIR.SEQ)s, l);
+    else return new treeIR.StmList(s,l);
  }
 
- static public Tree.StmList linearize(Tree.Stm s) {
+ static public treeIR.StmList linearize(treeIR.Stm s) {
     return linear(do_stm(s), null);
  }
+}
 }

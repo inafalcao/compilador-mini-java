@@ -1,8 +1,8 @@
-package Canon;
+package canon;
 
 public class StmListList {
-  public Tree.StmList head;
+  public treeIR.StmList head;
   public StmListList tail;
-  public StmListList(Tree.StmList h, StmListList t) {head=h; tail=t;}
+  public StmListList(treeIR.StmList h, StmListList t) {head=h; tail=t;}
 }
 

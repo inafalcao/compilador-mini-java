@@ -1,49 +1,53 @@
-package Canon;
+package canon;
+
+import treeIR.StmList;
 
 public class BasicBlocks {
   public StmListList blocks;
-  public Temp.Label done;
+  public activationRegister.temp.Label done;
 
   private StmListList lastBlock;
-  private Tree.StmList lastStm;
+  private treeIR.StmList lastStm;
 
-  private void addStm(Tree.Stm s) {
-	lastStm = lastStm.tail = new Tree.StmList(s,null);
+  private void addStm(treeIR.Stm s) {
+	lastStm = (StmList) (lastStm.tail = new treeIR.StmList(s,null));
+	//coloquei um cast aqui pra StmList, nao sei se ta certo
   }
 
-  private void doStms(Tree.StmList l) {
+  private void doStms(treeIR.StmList l) {
       if (l==null) 
-	doStms(new Tree.StmList(new Tree.JUMP(done), null));
-      else if (l.head instanceof Tree.JUMP 
-	      || l.head instanceof Tree.CJUMP) {
+	doStms(new treeIR.StmList(new treeIR.JUMP(done), null));
+      else if (l.head instanceof treeIR.JUMP 
+	      || l.head instanceof treeIR.CJUMP) {
 	addStm(l.head);
-	mkBlocks(l.tail);
+	mkBlocks((StmList) l.tail);
+	//coloquei um cast aqui pra StmList, nao sei se ta certo
       } 
-      else if (l.head instanceof Tree.LABEL)
-           doStms(new Tree.StmList(new Tree.JUMP(((Tree.LABEL)l.head).label), 
+      else if (l.head instanceof treeIR.LABEL)
+           doStms(new treeIR.StmList(new treeIR.JUMP(((treeIR.LABEL)l.head).label), 
 	  			   l));
       else {
 	addStm(l.head);
-	doStms(l.tail);
+	doStms((StmList) l.tail);
       }
   }
 
-  void mkBlocks(Tree.StmList l) {
+  void mkBlocks(treeIR.StmList l) {
      if (l==null) return;
-     else if (l.head instanceof Tree.LABEL) {
-	lastStm = new Tree.StmList(l.head,null);
+     else if (l.head instanceof treeIR.LABEL) {
+	lastStm = new treeIR.StmList(l.head,null);
         if (lastBlock==null)
   	   lastBlock= blocks= new StmListList(lastStm,null);
         else
   	   lastBlock = lastBlock.tail = new StmListList(lastStm,null);
-	doStms(l.tail);
+	doStms((StmList) l.tail);
      }
-     else mkBlocks(new Tree.StmList(new Tree.LABEL(new Temp.Label()), l));
+     else mkBlocks(new treeIR.StmList(new treeIR.LABEL(new activationRegister.temp.Label()), l));
   }
    
 
-  public BasicBlocks(Tree.StmList stms) {
-    done = new Temp.Label();
+  public BasicBlocks(treeIR.StmList stms) {
+    done = new activationRegister.temp.Label();
     mkBlocks(stms);
   }
 }
