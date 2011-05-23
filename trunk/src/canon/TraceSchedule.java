@@ -1,29 +1,29 @@
 package canon;
 
-import treeIR.StmList;
+import treeIR.*;
 
 public class TraceSchedule {
 
-  public treeIR.StmList stms;
+  public StmList stms;
   BasicBlocks theBlocks;
   java.util.Dictionary table = new java.util.Hashtable();
 
-  treeIR.StmList getLast(treeIR.StmList block) {
-     treeIR.StmList l=block;
+  StmList getLast(StmList block) {
+     StmList l=block;
      while (l.tail.tail!=null)  l=(StmList) l.tail;
      return l;
   }
 
-  void trace(treeIR.StmList l) {
+  void trace(StmList l) {
    for(;;) {
-     treeIR.LABEL lab = (treeIR.LABEL)l.head;
+     LABEL lab = (LABEL)l.head;
      table.remove(lab.label);
-     treeIR.StmList last = getLast(l);
-     treeIR.Stm s = last.tail.head;
-     if (s instanceof treeIR.JUMP) {
-	treeIR.JUMP j = (treeIR.JUMP)s;
-        treeIR.StmList target = (treeIR.StmList)table.get(j.targets.head);
-	if (j.targets.tail==null && target!=null) {
+     StmList last = getLast(l);
+     Stm s = last.tail.head;
+     if (s instanceof JUMP) {
+    	 JUMP j = (JUMP)s;
+         StmList target = (StmList)table.get(j.targets.head);
+     if (j.targets.tail==null && target!=null) {
                last.tail=target;
 	       l=target;
         }
@@ -32,16 +32,16 @@ public class TraceSchedule {
 	  return;
         }
      }
-     else if (s instanceof treeIR.CJUMP) {
-	treeIR.CJUMP j = (treeIR.CJUMP)s;
-        treeIR.StmList t = (treeIR.StmList)table.get(j.iftrue);
-        treeIR.StmList f = (treeIR.StmList)table.get(j.iffalse);
+     else if (s instanceof CJUMP) {
+	CJUMP j = (CJUMP)s;
+        StmList t = (StmList)table.get(j.iftrue);
+        StmList f = (StmList)table.get(j.iffalse);
         if (f!=null) {
 	  last.tail.tail=f; 
 	  l=f;
 	}
         else if (t!=null) {
-	  last.tail.head=new treeIR.CJUMP(treeIR.CJUMP.notRel(j.relop),
+	  last.tail.head=new CJUMP(CJUMP.notRel(j.relop),
 					j.left,j.right,
 					j.iffalse,j.iftrue);
 	  last.tail.tail=t;
@@ -49,10 +49,10 @@ public class TraceSchedule {
         }
         else {
       activationRegister.temp.Label ff = new activationRegister.temp.Label();
-	  last.tail.head=new treeIR.CJUMP(j.relop,j.left,j.right,
+	  last.tail.head=new CJUMP(j.relop,j.left,j.right,
 					j.iftrue,ff);
-	  last.tail.tail=new treeIR.StmList(new treeIR.LABEL(ff),
-		           new treeIR.StmList(new treeIR.JUMP(j.iffalse),
+	  last.tail.tail=new StmList(new LABEL(ff),
+		           new StmList(new JUMP(j.iffalse),
 					    getNext()));
 	  return;
         }
@@ -61,12 +61,12 @@ public class TraceSchedule {
     }
   }
 
-  treeIR.StmList getNext() {
+  StmList getNext() {
       if (theBlocks.blocks==null) 
-	return new treeIR.StmList(new treeIR.LABEL(theBlocks.done), null);
+	return new StmList(new LABEL(theBlocks.done), null);
       else {
-	 treeIR.StmList s = theBlocks.blocks.head;
-	 treeIR.LABEL lab = (treeIR.LABEL)s.head;
+	 StmList s = theBlocks.blocks.head;
+	 LABEL lab = (LABEL)s.head;
 	 if (table.get(lab.label) != null) {
           trace(s);
 	  return s;
@@ -81,7 +81,7 @@ public class TraceSchedule {
   public TraceSchedule(BasicBlocks b) {
     theBlocks=b;
     for(StmListList l = b.blocks; l!=null; l=l.tail)
-       table.put(((treeIR.LABEL)l.head.head).label, l.head);
+       table.put(((LABEL)l.head.head).label, l.head);
     stms=getNext();
     table=null;
   }        
