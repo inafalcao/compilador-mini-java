@@ -1,6 +1,6 @@
-package Assem;
+package instructionSelection.Assem;
 
 public class Targets {
-  public Temp.LabelList labels;
-  public Targets(Temp.LabelList l) {labels=l;}
+  public activationRegister.temp.LabelList labels;
+  public Targets(activationRegister.temp.LabelList l) {labels=l;}
 }

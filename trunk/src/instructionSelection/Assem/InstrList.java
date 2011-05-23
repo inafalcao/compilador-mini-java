@@ -1,4 +1,4 @@
-package Assem;
+package instructionSelection.Assem;
 
 public class InstrList {
   public Instr head;
