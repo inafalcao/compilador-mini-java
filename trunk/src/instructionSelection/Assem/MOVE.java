@@ -1,14 +1,15 @@
 package instructionSelection.Assem;
+import activationRegister.temp.*;
 
 public class MOVE extends Instr {
-   public activationRegister.temp.Temp dst;   
-   public activationRegister.temp.Temp src;
+   public Temp dst;   
+   public Temp src;
 
-   public MOVE(String a, activationRegister.temp.Temp d, activationRegister.temp.Temp s) {
+   public MOVE(String a, Temp d, Temp s) {
       assem=a; dst=d; src=s;
    }
-   public activationRegister.temp.TempList use() {return new activationRegister.temp.TempList(src,null);}
-   public activationRegister.temp.TempList def() {return new activationRegister.temp.TempList(dst,null);}
+   public TempList use() {return new TempList(src,null);}
+   public TempList def() {return new TempList(dst,null);}
    public Targets jumps()     {return null;}
 
 }

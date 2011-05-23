@@ -2,28 +2,31 @@ package instructionSelection.Assem;
 
 import activationRegister.temp.LabelList;
 import activationRegister.temp.TempList;
+import activationRegister.temp.Temp;
+import activationRegister.temp.Label;
+import activationRegister.temp.TempMap;
 
 public abstract class Instr {
   public String assem;
-  public abstract activationRegister.temp.TempList use();
-  public abstract activationRegister.temp.TempList def();
+  public abstract TempList use();
+  public abstract TempList def();
   public abstract Targets jumps();
 
-  private activationRegister.temp.Temp nthTemp(activationRegister.temp.TempList l, int i) {
+  private Temp nthTemp(TempList l, int i) {
     if (i==0) return l.head;
     else return nthTemp((TempList) l.tail,i-1);
   }
 
-  private activationRegister.temp.Label nthLabel(activationRegister.temp.LabelList l, int i) {
+  private Label nthLabel(LabelList l, int i) {
     if (i==0) return l.head;
     else return nthLabel((LabelList) l.tail,i-1);
   }
 
-  public String format(activationRegister.temp.TempMap m) {
-	activationRegister.temp.TempList dst = def();
-	activationRegister.temp.TempList src = use();
+  public String format(TempMap m) {
+	TempList dst = def();
+	TempList src = use();
     Targets j = jumps();
-    activationRegister.temp.LabelList jump = (j==null)?null:j.labels;
+    LabelList jump = (j==null)?null:j.labels;
     StringBuffer s = new StringBuffer();
     int len = assem.length();
     for(int i=0; i<len; i++)

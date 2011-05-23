@@ -1,14 +1,15 @@
 package instructionSelection.Assem;
+import activationRegister.temp.*;
 
 public class LABEL extends Instr {
-   public activationRegister.temp.Label label;
+   public Label label;
 
-   public LABEL(String a, activationRegister.temp.Label l) {
+   public LABEL(String a, Label l) {
       assem=a; label=l;
    }
 
-   public activationRegister.temp.TempList use() {return null;}
-   public activationRegister.temp.TempList def() {return null;}
+   public TempList use() {return null;}
+   public TempList def() {return null;}
    public Targets jumps()     {return null;}
 
 }
