@@ -1,1 +1,0 @@
-package treeIR;abstract public class Exp {	protected Exp exp;	abstract public ExpList kids();	abstract public Exp build(ExpList kids);		public Exp unEx(){		return exp;	}	public Stm unNx(){		return new EXPSTM(exp);	}	abstract public String print();}
