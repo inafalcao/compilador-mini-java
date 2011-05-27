@@ -10,6 +10,8 @@ import java.util.Vector;
 public class Method {
 	public Frame frame;
 	
+	public int index;
+	
 	public Access thisPtr;
 	
 	private HashMap<Symbol, Type> variables;
@@ -27,6 +29,7 @@ public class Method {
 		accesses = new HashMap<Symbol, Access>();
 		name = m;
 		typeReturn = returnType;
+		index =-1;
 	}
 
 	public void addVariable(Symbol variable, Type type) {
@@ -52,5 +55,9 @@ public class Method {
 	@Override
 	public String toString(){
 		return name.toString();
+	}
+	
+	public Symbol getName(){
+		return name;
 	}
 }

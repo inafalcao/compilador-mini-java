@@ -1,5 +1,7 @@
 package translate;
 
+import java.util.Vector;
+
 import activationRegister.Frame;
 import symbolTable.SymbolTable;
 import symbolTable.Class;
@@ -7,6 +9,7 @@ import symbolTable.Method;
 import symbolTable.Symbol;
 import symbolTable.VarInfo;
 import syntaxtree.And;
+import syntaxtree.Type;
 import syntaxtree.ArrayLength;
 import syntaxtree.ArrayLookup;
 import syntaxtree.Call;
@@ -26,12 +29,13 @@ import syntaxtree.True;
 import visitor.VisitorAdapter;
 import activationRegister.temp.*;
 import treeIR.*;
+import typeCheking.CheckType;
 import util.List;
 
 class ExpHandler extends VisitorAdapter
 {
     private Exp result;
-    
+    private typeCheking.CheckType checkTypeVisitor;
     private SymbolTable env;
     private Class cinfo;
     private Method minfo;
@@ -39,17 +43,11 @@ class ExpHandler extends VisitorAdapter
     
     private treeIR.Exp getVariable(Symbol name)
     {
+    	
         if ( minfo != null )
         {
-            VarInfo v = minfo.localsTable.get(name);
-            
-            if ( v != null )
-                return v.access.exp(new TEMP(frame.FP()));
-            
-            v = minfo.formalsTable.get(name);
-            
-            if ( v != null )
-                return v.access.exp(new TEMP(frame.FP()));
+        	if(minfo.getAccesses().containsKey(name))
+        		return minfo.getAccesses().get(name).exp(new TEMP(frame.FP()));
         }
         
         // se esta aqui, a variavel eh um atributo de classe
@@ -70,7 +68,7 @@ class ExpHandler extends VisitorAdapter
         
         treeIR.Exp vtable = new MEM(new BINOP(BINOP.PLUS, new TEMP(thisPtr), new CONST(0)));
         
-        int index = c.getMethodOffset(m.name);
+        int index = c.getMethodOffset(m);
         
         treeIR.Exp methodOffset = new BINOP(BINOP.LSHIFT, new CONST(index), new CONST(2));
         
@@ -124,8 +122,8 @@ class ExpHandler extends VisitorAdapter
     {
         Temp res = new Temp();
         
-        Exp lhs = ExpHandler.translate(frame, env, cinfo, minfo, node.lhs);
-        Exp rhs = ExpHandler.translate(frame, env, cinfo, minfo, node.rhs);
+        Exp lhs = ExpHandler.translate(frame, env, cinfo, minfo, node.e1);
+        Exp rhs = ExpHandler.translate(frame, env, cinfo, minfo, node.e2);
         
         Label f = new Label();        
         Label secondPart = new Label();
@@ -165,8 +163,8 @@ class ExpHandler extends VisitorAdapter
     @Override
 	public void visit(LessThan node)
     {
-        Exp lhs = ExpHandler.translate(frame, env, cinfo, minfo, node.lhs);
-        Exp rhs = ExpHandler.translate(frame, env, cinfo, minfo, node.rhs);
+        Exp lhs = ExpHandler.translate(frame, env, cinfo, minfo, node.e1);
+        Exp rhs = ExpHandler.translate(frame, env, cinfo, minfo, node.e2);
         
         int op = CJUMP.LT;
         
@@ -179,8 +177,8 @@ class ExpHandler extends VisitorAdapter
     @Override
 	public void visit(Plus node)
     {
-        Exp lhs = ExpHandler.translate(frame, env, cinfo, minfo, node.lhs);
-        Exp rhs = ExpHandler.translate(frame, env, cinfo, minfo, node.rhs);
+        Exp lhs = ExpHandler.translate(frame, env, cinfo, minfo, node.e1);
+        Exp rhs = ExpHandler.translate(frame, env, cinfo, minfo, node.e2);
         
         treeIR.Exp cmp = new BINOP(BINOP.PLUS, lhs.unEx(), rhs.unEx());
         
@@ -190,8 +188,8 @@ class ExpHandler extends VisitorAdapter
     @Override
 	public void visit(Minus node)
     {
-        Exp lhs = ExpHandler.translate(frame, env, cinfo, minfo, node.lhs);
-        Exp rhs = ExpHandler.translate(frame, env, cinfo, minfo, node.rhs);
+        Exp lhs = ExpHandler.translate(frame, env, cinfo, minfo, node.e1);
+        Exp rhs = ExpHandler.translate(frame, env, cinfo, minfo, node.e2);
         
         treeIR.Exp cmp = new BINOP(BINOP.MINUS, lhs.unEx(), rhs.unEx());
         
@@ -201,10 +199,10 @@ class ExpHandler extends VisitorAdapter
     @Override
 	public void visit(Times node)
     {
-        Exp lhs = ExpHandler.translate(frame, env, cinfo, minfo, node.lhs);
-        Exp rhs = ExpHandler.translate(frame, env, cinfo, minfo, node.rhs);
+        Exp lhs = ExpHandler.translate(frame, env, cinfo, minfo, node.e1);
+        Exp rhs = ExpHandler.translate(frame, env, cinfo, minfo, node.e2);
         
-        treeIR.Exp cmp = new BINOP(BINOP.TIMES, lhs.unEx(), rhs.unEx());
+        treeIR.Exp cmp = new BINOP(BINOP.MUL, lhs.unEx(), rhs.unEx());
         
         result = new Ex(cmp);
     }
@@ -215,7 +213,7 @@ class ExpHandler extends VisitorAdapter
     @Override
 	public void visit(IntegerLiteral node)
     {
-        result = new Ex(new CONST(node.value));
+        result = new Ex(new CONST(node.i));
     }
     
     /*-------------------*/
@@ -245,19 +243,19 @@ class ExpHandler extends VisitorAdapter
     @Override
 	public void visit(NewObject node)
     {
-        Symbol s = Symbol.symbol(node.className.s);
+        Symbol s = Symbol.symbol(node.i.s);
         
-        ClassInfo c = env.classes.get(s);
+        Class c = env.getClass(s);
         
         // tamanho do objeto: numero de atributos + 1 palavras
         int tamanho = (c.attributesOrder.size() + 1) * frame.wordsize();
         
-        Label vtableName = new Label("vtable_" + c.name);
+        Label vtableName = new Label("vtable_" + c.getName());
         
-        List<tree.Exp> params = new List<tree.Exp>(new CONST(tamanho), 
-                new List<tree.Exp>(new NAME(vtableName),null));
+        List<treeIR.Exp> params = new List<treeIR.Exp>(new CONST(tamanho), 
+                new List<treeIR.Exp>(new NAME(vtableName),null));
         
-        tree.Exp e = frame.externalCall("newObject", params);
+        treeIR.Exp e = frame.externalCall("newObject", params);
         
         result = new Ex( e );
     }
@@ -265,13 +263,13 @@ class ExpHandler extends VisitorAdapter
     @Override
 	public void visit(NewArray node)
     {
-        tree.Exp size = ExpHandler.translate(frame, env, cinfo, minfo, node.size).unEx();
+        treeIR.Exp size = ExpHandler.translate(frame, env, cinfo, minfo, node.e).unEx();
         
-        List<tree.Exp> params = new List<tree.Exp>(size, null);
+        List<treeIR.Exp> params = new List<treeIR.Exp>(size, null);
         
         Temp t = new Temp();
         
-        tree.Exp e = new ESEQ(new MOVE(new TEMP(t), frame.externalCall("newArray", params)),
+        treeIR.Exp e = new ESEQ(new MOVE(new TEMP(t), frame.externalCall("newArray", params)),
                 new TEMP(t));
         
         result = new Ex( e );
@@ -283,9 +281,9 @@ class ExpHandler extends VisitorAdapter
     @Override
 	public void visit(IdentifierExp node)
     {
-        Symbol name = Symbol.symbol(node.name.s);
+        Symbol name = Symbol.symbol(node.s);
         
-        tree.Exp fetch = getVariable(name);
+        treeIR.Exp fetch = getVariable(name);
         
         result = new Ex(fetch);
     }
@@ -296,24 +294,24 @@ class ExpHandler extends VisitorAdapter
     @Override
 	public void visit(ArrayLength node)
     {
-        tree.Exp array = ExpHandler.translate(frame, env, cinfo, minfo, node.array).unEx();
+        treeIR.Exp array = ExpHandler.translate(frame, env, cinfo, minfo, node.e).unEx();
         
         Temp arr = new Temp();
         
         Temp size = new Temp();
         
-        List<tree.Exp> params = new List<tree.Exp>(new TEMP(arr),
-                new List<tree.Exp>(new CONST(node.line), null));
+        List<treeIR.Exp> params = new List<treeIR.Exp>(new TEMP(arr),
+                new List<treeIR.Exp>(new CONST(node.line), null));
         
         
-        tree.Stm move = new MOVE(new TEMP(arr), array);
-        tree.Stm as = new EXPSTM(frame.externalCall("assertPtr", params));
-        tree.Stm s = new MOVE(new TEMP(size),
+        treeIR.Stm move = new MOVE(new TEMP(arr), array);
+        treeIR.Stm as = new EXPSTM(frame.externalCall("assertPtr", params));
+        treeIR.Stm s = new MOVE(new TEMP(size),
                 new BINOP(BINOP.PLUS, new TEMP(arr), new CONST(0)));
         
-        tree.Stm aux = new SEQ(move, new SEQ(as,s));
+        treeIR.Stm aux = new SEQ(move, new SEQ(as,s));
         
-        tree.Exp fetchSize = new ESEQ(aux, new MEM(new TEMP(size)));
+        treeIR.Exp fetchSize = new ESEQ(aux, new MEM(new TEMP(size)));
         
         result = new Ex(fetchSize);
     }
@@ -321,20 +319,20 @@ class ExpHandler extends VisitorAdapter
     @Override
 	public void visit(ArrayLookup node)
     {
-        tree.Exp array = ExpHandler.translate(frame, env, cinfo, minfo, node.array).unEx();
-        tree.Exp index = ExpHandler.translate(frame, env, cinfo, minfo, node.index).unEx();
+        treeIR.Exp array = ExpHandler.translate(frame, env, cinfo, minfo, node.e1).unEx();
+        treeIR.Exp index = ExpHandler.translate(frame, env, cinfo, minfo, node.e2).unEx();
         
         Temp arrayTemp = new Temp();
         Temp indexTemp = new Temp();
         
-        List<tree.Exp> params = new List<tree.Exp>(new TEMP(arrayTemp),
-                new List<tree.Exp>(new TEMP(indexTemp),
-                        new List<tree.Exp>(new CONST(node.line),null)));
+        List<treeIR.Exp> params = new List<treeIR.Exp>(new TEMP(arrayTemp),
+                new List<treeIR.Exp>(new TEMP(indexTemp),
+                        new List<treeIR.Exp>(new CONST(node.line),null)));
         
-        List<tree.Exp> asParams = new List<tree.Exp>(new TEMP(arrayTemp),
-                new List<tree.Exp>(new CONST(node.line), null));
+        List<treeIR.Exp> asParams = new List<treeIR.Exp>(new TEMP(arrayTemp),
+                new List<treeIR.Exp>(new CONST(node.line), null));
         
-        tree.Stm as = new EXPSTM(frame.externalCall("assertPtr", asParams));
+        treeIR.Stm as = new EXPSTM(frame.externalCall("assertPtr", asParams));
         
         // tudo isso para fazer verificacao de limites...
         SEQ s = new SEQ(new MOVE(new TEMP(arrayTemp), array), 
@@ -364,7 +362,7 @@ class ExpHandler extends VisitorAdapter
         Label f = new Label();
         Label join = new Label();
         
-        SEQ s = new SEQ( ExpHandler.translate(frame, env, cinfo, minfo, node.exp ).unCx(t,f),
+        SEQ s = new SEQ( ExpHandler.translate(frame, env, cinfo, minfo, node.e ).unCx(t,f),
                 new SEQ(new LABEL(t),
                         new SEQ(new MOVE(new TEMP(r), new CONST(0)), 
                                 new SEQ(new JUMP(join),
@@ -383,15 +381,37 @@ class ExpHandler extends VisitorAdapter
     @Override
 	public void visit(Call node)
     {
-        tree.Exp thisPtr = ExpHandler.translate(frame, env, cinfo, minfo, node.object).unEx();
+        treeIR.Exp thisPtr = ExpHandler.translate(frame, env, cinfo, minfo, node.e).unEx();
         
-        IdentifierType type = (IdentifierType) node.object.type;
+        IdentifierType type = (IdentifierType)cinfo.getVariables().get(node.e);
         
-        ClassInfo ci = env.classes.get(Symbol.symbol(type.name));
+        Class ci = env.getClass(Symbol.symbol(type.s));
         
-        MethodInfo mi = ci.methods.get( Symbol.symbol(node.method.s) );
+        Vector<Method> meths = env.getMethodVectorClass(type,Symbol.symbol(node.i.s) );
+        Method meth,mi;
+        Type t1;
+        boolean exists = true;
+		for(int i=0;i<meths.size();i++){
+			exists = true;
+			meth = meths.elementAt(i);
+			for(int j=0; j<node.el.size(); j++){
+				t1= node.el.elementAt(j).accept(checkTypeVisitor);
+				if((node.el.size()!=meth.getPramsType().size())||(t1==null)){ 
+					exists = false;
+					break;
+				}
+				if(!t1.equals(meth.getPramsType().elementAt(j).t)){
+					exists = false;
+					break;
+				}
+			}
+			if(exists){
+				mi = meth;
+				break;
+			}
+		}
         
-        List<tree.Exp> params = ExpListHandler.translate(frame, env, cinfo, minfo, node.actuals);
+        List<treeIR.Exp> params = ExpListHandler.translate(frame, env, cinfo, minfo, node.el);
         
         result = new Ex(getMethod(thisPtr, node, ci, mi, params));
     }

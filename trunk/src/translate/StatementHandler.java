@@ -5,7 +5,6 @@ import symbolTable.SymbolTable;
 import symbolTable.Class;
 import symbolTable.Method;
 import symbolTable.Symbol;
-import symbolTable.VarInfo;
 import syntaxtree.ArrayAssign;
 import syntaxtree.Assign;
 import syntaxtree.Block;
@@ -42,15 +41,8 @@ class StatementHandler extends VisitorAdapter
     
     private treeIR.Exp getVariable(Symbol name)
     {
-        VarInfo v = minfo.localsTable.get(name);
-        
-        if ( v != null )
-            return v.access.exp(new TEMP(frame.FP()));
-        
-        v = minfo.formalsTable.get(name);
-        
-        if ( v != null )
-            return v.access.exp(new TEMP(frame.FP()));
+    	if(minfo.getAccesses().containsKey(name))
+    		return minfo.getAccesses().get(name).exp(new TEMP(frame.FP()));
         
         // obtendo atributo de classe
         int idx = cinfo.getAttributeOffset(name);

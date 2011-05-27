@@ -19,6 +19,8 @@ public class Class {
 	private Symbol name;
 
 	private Type type;
+	
+	public Vector<Symbol> attributesOrder;
 
 	
 	public Class(Symbol name){
@@ -27,6 +29,7 @@ public class Class {
 		variables = new HashMap<Symbol, Type>();
 		methods = new Vector<Method>();
 		methodsSymbols = new Vector<Symbol>();
+		attributesOrder = new Vector<Symbol>();
 		extender = null;
 	}
 	
@@ -53,11 +56,13 @@ public class Class {
 		Method mt = new Method(m, listIn, returnType);
 		methods.add(mt);
 		methodsSymbols.add(m);
+		mt.index = methodsSymbols.size()-1;
 		return mt;
 	}
 
 	public void addVariable(Symbol variable, Type type2) {
 		variables.put(variable, type2);
+		attributesOrder.add(variable);
 	}
 	
 	public Vector<Method> getMethodVector(Symbol meth) {
@@ -99,4 +104,14 @@ public class Class {
 		return variables.size();
 	}
 	
+	public int getAttributeOffset(Symbol name)
+    {
+        // pega a ultima declaracao do simbolo.
+        return attributesOrder.lastIndexOf(name) + 1; // adicionando 1 para considerar a vtable
+    }
+	
+	public int getMethodOffset(Method m)
+    {
+        return m.index;
+    }
 }
