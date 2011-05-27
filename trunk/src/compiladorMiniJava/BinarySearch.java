@@ -2,7 +2,6 @@ package compiladorMiniJava;
 
 
 import activationRegister.Frame;
-import activationRegister.Translate;
 
 import parser.MiniJavaParser;
 import parser.ParseException;
@@ -13,6 +12,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import error.Error;
+import translate.Translate;
 
 import symbolTable.*;
 import syntaxtree.Program;
@@ -52,6 +52,7 @@ public class BinarySearch {
 		}
 		
 		//fase traducao
+		Translate.translate(frame,table,prog);
 
 		in.close();//close file
 	} catch (IOException e) {
