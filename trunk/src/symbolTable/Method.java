@@ -2,12 +2,18 @@ package symbolTable;
 
 import java.util.HashMap;
 import syntaxtree.*;
+import activationRegister.Frame;
+import activationRegister.Access;
 import java.util.Vector;
 
 
 public class Method {
+	public Frame frame;
+	
+	public Access thisPtr;
 	
 	private HashMap<Symbol, Type> variables;
+	private HashMap<Symbol, Access> accesses;
 
 	private Type typeReturn;
 
@@ -18,6 +24,7 @@ public class Method {
 	public Method(Symbol m, Vector<Formal> typeParamIn, Type returnType) {
 		typeParam = typeParamIn;
 		variables = new HashMap<Symbol, Type>();
+		accesses = new HashMap<Symbol, Access>();
 		name = m;
 		typeReturn = returnType;
 	}
@@ -32,6 +39,10 @@ public class Method {
 
 	public HashMap<Symbol, Type> getVariables() {
 		return variables;
+	}
+	
+	public HashMap<Symbol, Access> getAccesses() {
+		return accesses;
 	}
 	
 	public Vector<Formal> getPramsType(){

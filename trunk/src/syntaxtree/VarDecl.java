@@ -20,7 +20,7 @@ public class VarDecl {
   }
   
   //Translate.java
-  public activationRegister.util.Exp accept(TranslateVisitor v){
+  public translate.Exp accept(TranslateVisitor v){
 	  return v.visit(this);
   }
 }

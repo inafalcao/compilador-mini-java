@@ -4,9 +4,10 @@ import java.util.HashMap;
 import java.util.Vector;
 import error.Error;
 import syntaxtree.*;
+import activationRegister.temp.Label;
 
 public class Class {
-	
+	public Label vtable;
 
 	private HashMap<Symbol, Type> variables;
 

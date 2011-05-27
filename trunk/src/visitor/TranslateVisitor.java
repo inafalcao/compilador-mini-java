@@ -34,7 +34,7 @@ import syntaxtree.Times;
 import syntaxtree.True;
 import syntaxtree.VarDecl;
 import syntaxtree.While;
-import activationRegister.util.Exp;
+import translate.Exp;
 
 /**
  * 

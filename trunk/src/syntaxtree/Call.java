@@ -19,7 +19,7 @@ public class Call extends Exp {
   public Type accept(TypeVisitor v) {
     return v.visit(this);
   }
-  public activationRegister.util.Exp accept(TranslateVisitor v){
+  public translate.Exp accept(TranslateVisitor v){
 	  return v.visit(this);
   	}
 }
