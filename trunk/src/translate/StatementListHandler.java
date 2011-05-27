@@ -4,6 +4,7 @@ import symbolTable.SymbolTable;
 import symbolTable.Class;
 import symbolTable.Method;
 import syntaxtree.Statement;
+import syntaxtree.StatementList;
 import treeIR.CONST;
 import treeIR.EXPSTM;
 import treeIR.SEQ;
@@ -27,8 +28,17 @@ class StatementListHandler
         return null;
     }
     
-    static Exp translate(Frame f, SymbolTable e, Class c, Method m, List<Statement> ls)
+    static List<Statement> toList(StatementList sl){
+    	List<Statement> sl2 = new List<Statement>();
+    	for(int i=0;i<sl.size();i++){
+    		sl2.add(sl.elementAt(i));
+    	}
+    	return sl2;
+    }
+    
+    static Exp translate(Frame f, SymbolTable e, Class c, Method m, StatementList sl2)
     {
+    	List<Statement> ls = toList(sl2);
         Stm r = null;
         
         if ( ls == null)
