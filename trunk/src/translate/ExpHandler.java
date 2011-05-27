@@ -7,7 +7,6 @@ import symbolTable.SymbolTable;
 import symbolTable.Class;
 import symbolTable.Method;
 import symbolTable.Symbol;
-import symbolTable.VarInfo;
 import syntaxtree.And;
 import syntaxtree.Type;
 import syntaxtree.ArrayLength;
@@ -35,7 +34,7 @@ import util.List;
 class ExpHandler extends VisitorAdapter
 {
     private Exp result;
-    private typeCheking.CheckType checkTypeVisitor;
+    private CheckType checkTypeVisitor;
     private SymbolTable env;
     private Class cinfo;
     private Method minfo;
@@ -87,7 +86,7 @@ class ExpHandler extends VisitorAdapter
                 new SEQ(new MOVE(new TEMP(thisPtr), obj),
                         new SEQ( as,
                                 new SEQ( new EXPSTM( 
-                                        new CALL(methodAddr, args) ) , 
+                                        new CALL(methodAddr, toExpList(args)) ) , 
                                         new MOVE( new TEMP(rv), 
                                                 new TEMP(frame.RV()))))), 
                new TEMP(rv) );
@@ -388,7 +387,7 @@ class ExpHandler extends VisitorAdapter
         Class ci = env.getClass(Symbol.symbol(type.s));
         
         Vector<Method> meths = env.getMethodVectorClass(type,Symbol.symbol(node.i.s) );
-        Method meth,mi;
+        Method meth,mi=null;
         Type t1;
         boolean exists = true;
 		for(int i=0;i<meths.size();i++){
@@ -411,8 +410,21 @@ class ExpHandler extends VisitorAdapter
 			}
 		}
         
-        List<treeIR.Exp> params = ExpListHandler.translate(frame, env, cinfo, minfo, node.el);
+        List<treeIR.Exp> params = ExpListHandler.translate(frame, env, cinfo, minfo,toList(node.el));
         
         result = new Ex(getMethod(thisPtr, node, ci, mi, params));
+    }
+    
+    public List<syntaxtree.Exp> toList(syntaxtree.ExpList el){
+    	List<syntaxtree.Exp> el2 = new List<syntaxtree.Exp>();
+    	for(int i=0;i<el.size();i++){
+    		el2.add(el.elementAt(i));
+    	}
+    	return el2;
+    }
+    
+    public treeIR.ExpList toExpList(List<treeIR.Exp> el){
+    	if(el==null) return null;
+    	return new treeIR.ExpList(el.head,toExpList(el.tail));
     }
 }
