@@ -8,5 +8,5 @@ As classes do pacote treeIR representam a estrutura de dados que armazena o cód
 
 A maior dificuldade encontrada nessa etapa foi construir a árvore IR gerando os fragmentos utilizando o Frame e entender como mostrar o resultado dessa fase. Contudo, mesmo sob as diversas dificuldades a equipe se reuniu e conseguiu finalizar todos os módulos. 
 
-<div align="center"><a href="http://code.google.com/p/compilador-mini-java/wiki/AnaliseSemantica">preview</a> | <a href="">next</a>
+<div align="center"><a href="http://code.google.com/p/compilador-mini-java/wiki/AnaliseSemantica">preview</a> | <a href="http://code.google.com/p/compilador-mini-java/wiki/Blocos">next</a>
 </div>
