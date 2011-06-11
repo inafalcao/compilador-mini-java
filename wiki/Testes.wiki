@@ -3,12 +3,12 @@
 Para testar nosso compilador, criamos um pacote chamado compiladorMiniJava. Nele se encontra o arquivo de menu da nossa aplicação o qual pode se escolher com qual arquivo deseja realizar a compilação.
 São eles:
 
-FACTORIAL
-BINARY TREE
-BINARY SEARCH
-BUBBLE SHORT
-LINEAR SEARCH
-TREE VISITOR
+FACTORIAL<br>
+BINARY TREE<br>
+BINARY SEARCH<br>
+BUBBLE SHORT<br>
+LINEAR SEARCH<br>
+TREE VISITOR<br>
 
 Como saida, o compilador imprime a tabela de símbolos e os blocos de cada arquivo compilado.
 
