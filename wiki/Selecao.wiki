@@ -1,0 +1,7 @@
+= Seleção de Instrução =
+
+Durante essa fase os nós da árvore IR foram agrupados e geramos instruções de máquina de acordo com a arquitetura Jouette. 
+
+No projeto, implementamos o algoritmo Maximal Munch que tem como saída as instruções de máquina. (igual ao do livro)
+
+No pacote jouette, a classe Codegen é usada para gerar o código de máquina.
