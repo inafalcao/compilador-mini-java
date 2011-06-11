@@ -5,3 +5,6 @@ Durante essa fase os nós da árvore IR foram agrupados e geramos instruções d
 No projeto, implementamos o algoritmo Maximal Munch que tem como saída as instruções de máquina. (igual ao do livro)
 
 No pacote jouette, a classe Codegen é usada para gerar o código de máquina.
+
+<div align="center"><a href="http://code.google.com/p/compilador-mini-java/wiki/Blocos">preview</a> | <a href="http://code.google.com/p/compilador-mini-java/wiki/Longevidade">next</a>
+</div>
