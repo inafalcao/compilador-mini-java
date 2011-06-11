@@ -1,0 +1,7 @@
+= Análise de Longevidade =
+
+Nesta fase, o grafo de controle de fluxo é gerado, mostrando todas as possíveis execuções do programa. 
+
+Utilizamos os traços e construimos o grafo, tal que cada nó do grafo representa uma instrução. As arestas representam o caminho da execução de uma instrução para outra. 
+
+Nesta fase, também computamos a análise de longevidade das variáveis utilizadas no programa, implementamos o algoritmo 10.4 da página 177 do livro.
