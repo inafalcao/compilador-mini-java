@@ -9,5 +9,5 @@ Nessa parte da implementação todos fizeram uma parte, principalmente na parte 
 Todo esse módulo foi totalmente implementado e testado.
 
 
-<div align="center"><a href="http://code.google.com/p/compilador-mini-java/wiki/ASB">preview</a> | <a href="">next</a>
+<div align="center"><a href="http://code.google.com/p/compilador-mini-java/wiki/ASB">preview</a> | <a href="http://code.google.com/p/compilador-mini-java/wiki/RI">next</a>
 </div>
