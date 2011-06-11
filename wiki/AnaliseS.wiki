@@ -8,3 +8,8 @@ Algumas modificações na gramática do livro-texto foram necessárias, de forma
 A compilação deste arquivo pelo utilitário do JAVACC também se deu sem erros ou avisos, o que nos mostra que as definições das produções estão corretas. Como nenhuma construção mostrada na gramática apresentada pelo livro foi esquecida, acreditamos que esta fase está completa com êxito.
 
 Diversos testes também foram realizados a fim de esgotar esta fase. Todos eles finalizaram com sucesso sob a implementação atual, sem que erros inesperados ocorressem.
+
+<div align="center">
+<a href="http://code.google.com/p/compilador-mini-java/wiki/AnaliseL">preview</a> |
+<a href="http://code.google.com/p/compilador-mini-java/wiki/ASB"> next</a>
+</div>
