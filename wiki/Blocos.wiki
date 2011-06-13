@@ -7,8 +7,7 @@ No site do framework do livro, os arquivos para a geração da árvore canônica
 
 <b>Implementação:</b> <font color="#1E90FF"> terminada </font>
 
-<b>Funcionalidade Implementadas:</b> <font color="#1E90FF">geração da lista de instruções através dos fragmentos do 
-programa.</font>
+<b>Funcionalidade Implementadas:</b> <font color="#1E90FF">canonização dos fragmentos.</font>
 
 <b>Funcionalidades Remanescentes:</b> <font color="#1E90FF"> nenhuma. </font>
 
