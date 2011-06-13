@@ -18,7 +18,7 @@ Não houve maiores dificuldades na implementação deste módulo.
 <b>Funcionalidade Implementadas:</b> <font color="#1E90FF">leitura do arquivo de entrada, geração dos tokens, validação dos 
 tokens. </font>
 
-<b>Funcionalidades Remanescentes:</b> <font color="#1E90FF">- </font color>
+<b>Funcionalidades Remanescentes:</b> <font color="#1E90FF">- </font>
 
 <b>Testes:</b> <font color="#1E90FF">completados com sucesso. </font>
 
