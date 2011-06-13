@@ -4,5 +4,15 @@ Foi construído o grafo de interferência onde os nós são os temporários util
 
 Os algoritmos de construção do grafo de interferência, simplify, coalesce, freeze, potencial spill, select, actual spill e start over foram implementados.
 
+<b>Implementação:</b> <font color="#1E90FF"> terminada </font>
+
+<b>Funcionalidade Implementadas:</b> <font color="#1E90FF">alocação de registradores.</font>
+
+<b>Funcionalidades Remanescentes:</b> <font color="#1E90FF"> nenhuma. </font>
+
+<b>Testes:</b> <font color="#1E90FF">completados com sucesso.</font>
+
+<b>Aval Final:</b> <font color="#1E90FF">classe completamente implementada.</font>
+
 <div align="center"><a href="http://code.google.com/p/compilador-mini-java/wiki/Longevidade">preview</a> | <a href="http://code.google.com/p/compilador-mini-java/wiki/Testes">next</a>
 </div>
