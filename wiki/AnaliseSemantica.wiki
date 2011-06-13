@@ -11,8 +11,8 @@ Todo esse módulo foi totalmente implementado e testado.
 
 <b>Implementação:</b> <font color="#1E90FF"> terminada </font>
 
-<b>Funcionalidade Implementadas:</b> <font color="#1E90FF">geração da árvore IR para a árvore abstrata dada como entrada e 
-os fragmentos do código.</font>
+<b>Funcionalidade Implementadas:</b> <font color="#1E90FF">construção da tabela de tipos e efetuação da checagem de tipos 
+do programa.</font>
 
 <b>Funcionalidades Remanescentes:</b> <font color="#1E90FF"> nenhuma. </font>
 
