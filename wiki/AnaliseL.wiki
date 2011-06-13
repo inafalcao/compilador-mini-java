@@ -12,6 +12,14 @@ Lucas e Paulo Jr ficaram responsáveis pela implementação
 
 Não houve maiores dificuldades na implementação deste módulo.
 
+
+<b>Implementação:</b> <font color="#1E90FF"> terminada </font color>
+<b>Funcionalidade Implementadas:</b> <font color="#1E90FF">leitura do arquivo de entrada, geração dos tokens, validação dos 
+tokens. </font color>
+<b>Funcionalidades Remanescentes:</b> <font color="#1E90FF">- </font color>
+<b>Testes:</b> <font color="#1E90FF">completados com sucesso. </font color>
+<b>Aval Final:</b> <font color="#1E90FF">classe completamente implementada.</font color>
+
 <div align="center">
 <a href="http://code.google.com/p/compilador-mini-java/wiki/Introducao">preview</a> |
 <a href="http://code.google.com/p/compilador-mini-java/wiki/AnaliseS"> next</a>
