@@ -15,12 +15,11 @@ Não houve maiores dificuldades na implementação deste módulo.
 
 <b>Implementação:</b> <font color="#1E90FF"> terminada </font>
 
-<b>Funcionalidade Implementadas:</b> <font color="#1E90FF">leitura do arquivo de entrada, geração dos tokens, validação dos 
-tokens. </font>
+<b>Funcionalidade Implementadas:</b> <font color="#1E90FF">geração dos tokens, validação dos tokens. </font>
 
-<b>Funcionalidades Remanescentes:</b> <font color="#1E90FF">- </font>
+<b>Funcionalidades Remanescentes:</b> <font color="#1E90FF"> nenhuma. </font>
 
-<b>Testes:</b> <font color="#1E90FF">completados com sucesso. </font>
+<b>Testes:</b> <font color="#1E90FF">completados com sucesso.</font>
 
 <b>Aval Final:</b> <font color="#1E90FF">classe completamente implementada.</font>
 
