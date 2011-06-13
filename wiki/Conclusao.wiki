@@ -5,3 +5,7 @@ Como conclusão do nosso trabalho, percebemos que a implementação ajudou os me
 Foi interessante a implementação, pois conseguimos aplicar os conceitos aprendidos em outras disciplinas neste projeto.
 
 Além disso, adquirimos uma ampla visão de como é o funcionamento de um compilador, as várias etapas que  um compilador tem que percorrer até o seu resultado final.
+
+
+<div align="center"><a href="http://code.google.com/p/compilador-mini-java/wiki/Arquivos">preview</a> | <a href="http://code.google.com/p/compilador-mini-java/wiki/Introducao">next</a>
+</div>
