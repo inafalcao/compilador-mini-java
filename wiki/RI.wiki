@@ -10,7 +10,8 @@ A maior dificuldade encontrada nessa etapa foi construir a árvore IR gerando os
 
 <b>Implementação:</b> <font color="#1E90FF"> terminada </font>
 
-<b>Funcionalidade Implementadas:</b> <font color="#1E90FF">canonização dos fragmentos</font>
+<b>Funcionalidade Implementadas:</b> <font color="#1E90FF">geração da árvore IR para a árvore abstrata dada como entrada e 
+os fragmentos do código</font>
 
 <b>Funcionalidades Remanescentes:</b> <font color="#1E90FF"> nenhuma. </font>
 
