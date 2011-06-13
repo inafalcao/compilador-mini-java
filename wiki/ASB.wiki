@@ -8,6 +8,16 @@ A partir dessa definição, o próprio JavaCC se encarrega de gerar o código ci
 
 Como o código gerado é automático, nenhum teste foi realizado, bastando verificar a corretude das regras de transformação aplicadas.
 
+<b>Implementação:</b> <font color="#1E90FF"> terminada </font>
+
+<b>Funcionalidade Implementadas:</b> <font color="#1E90FF">construção da tabela de tipos e efetuação da checagem de tipos 
+do programa.</font>
+
+<b>Funcionalidades Remanescentes:</b> <font color="#1E90FF"> nenhuma. </font>
+
+<b>Testes:</b> <font color="#1E90FF">completados com sucesso.</font>
+
+<b>Aval Final:</b> <font color="#1E90FF">classe completamente implementada.</font>
 
 <div align="center">
 <a href="http://code.google.com/p/compilador-mini-java/wiki/AnaliseS">preview</a> |
