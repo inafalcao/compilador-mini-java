@@ -13,7 +13,7 @@ Lucas e Paulo Jr ficaram responsáveis pela implementação
 Não houve maiores dificuldades na implementação deste módulo.
 
 
-<b>Implementação:</b> <font color="#1E90FF"> terminada </font color>
+<b>Implementação:</b> <font color="#1E90FF"> terminada </font>
 
 <br>
 
