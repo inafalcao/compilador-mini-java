@@ -9,7 +9,8 @@ No pacote jouette, a classe Codegen é usada para gerar o código de máquina.
 
 <b>Implementação:</b> <font color="#1E90FF"> terminada </font>
 
-<b>Funcionalidade Implementadas:</b> <font color="#1E90FF">geração do grafo de interferência.</font>
+<b>Funcionalidade Implementadas:</b> <font color="#1E90FF">geração da lista de instruções através dos fragmentos do 
+programa.</font>
 
 <b>Funcionalidades Remanescentes:</b> <font color="#1E90FF"> nenhuma. </font>
 
