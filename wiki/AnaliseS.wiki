@@ -12,8 +12,7 @@ Diversos testes também foram realizados a fim de testar esta fase. Todos eles f
 
 <b>Implementação:</b> <font color="#1E90FF"> terminada </font>
 
-<b>Funcionalidade Implementadas:</b> <font color="#1E90FF">parser da sequencia de tokens de entrada, validação do programa 
-e geração da árvore abstrata.</font>
+<b>Funcionalidade Implementadas:</b> <font color="#1E90FF">parser da sequencia de tokens de entrada, validação do programa</font>
 
 <b>Funcionalidades Remanescentes:</b> <font color="#1E90FF"> nenhuma. </font>
 
