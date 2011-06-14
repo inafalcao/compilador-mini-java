@@ -1,6 +1,7 @@
 #labels análiseléxica,tokens,testes
 = Análise Léxica =
 Esta fase tem como objetivo quebrar o programa de entrada em tokens, que são uma sequência de caracteres que podem ser tratados como uma unidade da gramática de uma linguagem de programação, no caso, será utilizada a Mini Java.
+
 Não foram encontradas dificuldades nesta fase.
 
 Para visualizar os Tokens criados <a href="http://code.google.com/p/compilador-mini-java/downloads/detail?name=TOKENS.txt&can=2&q=">clique aqui</a>
