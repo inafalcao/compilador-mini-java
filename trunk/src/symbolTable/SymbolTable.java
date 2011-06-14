@@ -9,11 +9,11 @@ import syntaxtree.Formal;
 import syntaxtree.IdentifierType;
 import syntaxtree.Type;
 import syntaxtree.MethodDecl;
+import treeIR.Exp;
 
 
 public class SymbolTable {
 
-	
 	private static HashMap<Symbol, Class> classes;
 
 	private Class currentClass = null;
@@ -128,6 +128,18 @@ public class SymbolTable {
 				currentMethod.addVariable(variable, type);
 		}
 	}
+	
+	public void addVariableAccess(Symbol variable , activationRegister.util.Exp exp){
+		if(currentMethod == null){
+			if(currentClass.getAccesses().containsKey(variable))System.out.println("Access de :"+variable.toString()+" ja declarada");
+			else 
+				currentClass.addVariableAccess(variable, exp);
+		}else{
+			if(currentMethod.getAccesses().containsKey(variable))System.out.println("Access de:"+variable.toString()+" ja declarada nesse escopo");
+			else
+				currentMethod.addVariableAccess(variable, exp);
+		}
+	}
 
 	
 	public void beginScopeClass(Symbol elem){
@@ -156,6 +168,34 @@ public class SymbolTable {
 		if(currentClass != null) currentMethod = null;
 	}
 	
+	public activationRegister.util.Exp lookUpAccess(Symbol symbol){
+		if(currentMethod == null){
+			if(currentClass != null){
+				if(currentClass.getAccesses().containsKey(symbol))
+					return currentClass.getAccesses().get(symbol);
+				else return lookUpForExtenderAccess(currentClass.getExtender(), symbol);
+			}else return null;
+		}else{
+			if(currentMethod.getAccesses().containsKey(symbol)){
+				return currentMethod.getAccesses().get(symbol);
+			}
+			else{
+				if(currentClass.getVariables().containsKey(symbol))
+					return currentClass.getAccesses().get(symbol);
+				else return lookUpForExtenderAccess(currentClass.getExtender(), symbol);
+			}
+		}
+	}
+	
+	
+	private activationRegister.util.Exp lookUpForExtenderAccess(Symbol extender, Symbol symbol) {
+		if(extender==null) return null;
+		if(!classes.containsKey(extender))return null;
+		Class clas = classes.get(extender);
+		if(clas.getAccesses().containsKey(symbol))//caso simbolo de uma atributo da classe
+			return clas.getAccesses().get(symbol);
+		return lookUpForExtenderAccess(clas.getExtender(), symbol);
+	}
 	
 	public Type lookUp(Symbol symbol){
 		if(currentMethod == null){

@@ -375,6 +375,7 @@ public class CheckType implements TypeVisitor {
 	public Type visit(Call n) {
 		Type type,t1;
 		type = n.e.accept(this);
+		n.typeClass = (IdentifierType)type;
 		if(type==null){
 			table.addError("Expressão invalida, referência a objeto esperada");
 			return null;

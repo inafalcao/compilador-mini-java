@@ -1,34 +1,42 @@
 package activationRegister.util;
 
 import activationRegister.temp.Label;
+import treeIR.CONST;
+import treeIR.ESEQ;
 import treeIR.Stm;
 
-class Nx extends Exp
-{
-    Stm stm;
-    
-    public Nx(Stm s)
-    {
-        super();
-        
-        stm = s;
-    }
+public class Nx extends Exp {
 
-    @Override
-	treeIR.Exp unEx()
-    {
-        throw new Error("unEx chamado para Nx");
-    }
+	/***/
+	private Stm stm;
+	
+	/**
+	 * 
+	 * */
+	public Nx(Stm stm){
+		this.stm = stm;
+	}
+	
+	/**
+	 * 
+	 * */
+	public Stm unNx(){
+		return stm;
+	}
+	
+	/***
+	 * 
+	 * */
+	public treeIR.Exp unEx(){
+		return new ESEQ(stm, new CONST(0));
+	}
 
-    @Override
-	Stm unNx()
-    {
-        return stm;
-    }
 
-    @Override
-	Stm unCx(Label t, Label f)
-    {
-        throw new Error("unEx chamado para Nx");
-    }
+	/**
+	 * 
+	 * */
+	public Stm unCx(Label t, Label f) {
+		return null;
+	}
+
 }

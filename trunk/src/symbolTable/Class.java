@@ -10,6 +10,7 @@ public class Class {
 	public Label vtable;
 
 	private HashMap<Symbol, Type> variables;
+	private HashMap<Symbol, activationRegister.util.Exp> accesses;
 
 	private Vector<Method> methods;
 	private Vector<Symbol> methodsSymbols; 
@@ -27,6 +28,7 @@ public class Class {
 		this.name = name;
 		type = new IdentifierType(name.toString());
 		variables = new HashMap<Symbol, Type>();
+		accesses = new HashMap<Symbol, activationRegister.util.Exp>();
 		methods = new Vector<Method>();
 		methodsSymbols = new Vector<Symbol>();
 		attributesOrder = new Vector<Symbol>();
@@ -37,6 +39,7 @@ public class Class {
 		this.name = name;
 		type = new IdentifierType(name.toString());
 		variables = new HashMap<Symbol, Type>();
+		accesses = new HashMap<Symbol, activationRegister.util.Exp>();
 		methods = new Vector<Method>();
 		methodsSymbols = new Vector<Symbol>();
 		extender =  ext;
@@ -65,6 +68,10 @@ public class Class {
 		attributesOrder.add(variable);
 	}
 	
+	public void addVariableAccess(Symbol variable, activationRegister.util.Exp exp) {
+		accesses.put(variable, exp);
+	}
+	
 	public Vector<Method> getMethodVector(Symbol meth) {
 		Vector<Method> meths = new Vector<Method>();
 		for(int i =0; i< methodsSymbols.size();i++){
@@ -86,6 +93,10 @@ public class Class {
 	
 	public HashMap<Symbol, Type> getVariables(){
 		return variables;
+	}
+	
+	public HashMap<Symbol, activationRegister.util.Exp> getAccesses(){
+		return accesses;
 	}
 
 	public Vector<Method> getMethods() {

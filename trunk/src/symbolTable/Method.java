@@ -15,7 +15,7 @@ public class Method {
 	public Access thisPtr;
 	
 	private HashMap<Symbol, Type> variables;
-	private HashMap<Symbol, Access> accesses;
+	private HashMap<Symbol, activationRegister.util.Exp> accesses;
 
 	private Type typeReturn;
 
@@ -26,7 +26,7 @@ public class Method {
 	public Method(Symbol m, Vector<Formal> typeParamIn, Type returnType) {
 		typeParam = typeParamIn;
 		variables = new HashMap<Symbol, Type>();
-		accesses = new HashMap<Symbol, Access>();
+		accesses = new HashMap<Symbol, activationRegister.util.Exp>();
 		name = m;
 		typeReturn = returnType;
 		index =-1;
@@ -34,6 +34,10 @@ public class Method {
 
 	public void addVariable(Symbol variable, Type type) {
 		variables.put(variable, type);
+	}
+	
+	public void addVariableAccess(Symbol variable, activationRegister.util.Exp exp) {
+		accesses.put(variable, exp);
 	}
 
 	public Type getReturnType() {
@@ -44,7 +48,7 @@ public class Method {
 		return variables;
 	}
 	
-	public HashMap<Symbol, Access> getAccesses() {
+	public HashMap<Symbol, activationRegister.util.Exp> getAccesses() {
 		return accesses;
 	}
 	

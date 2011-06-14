@@ -1,42 +1,28 @@
 package activationRegister;
 
-import instructionSelection.Assem.Instr;
+import instructionSelection.Assem.InstrList;
+
+import symbolTable.Symbol;
 import activationRegister.temp.Label;
 import activationRegister.temp.Temp;
-import activationRegister.temp.TempMap;
+import activationRegister.util.BoolList;
 import treeIR.Exp;
-import treeIR.Stm;
-import util.List;
+import treeIR.ExpList;
+import treeIR.StmList;
 
-public abstract class Frame implements TempMap
-{
-    public Frame()
-    {
-    }
-
-    public abstract Frame newFrame(Label name, List<Boolean> formals);
-    
-    public Label name;
-    
-    public List<Access> formals;
-    
-    public abstract Access allocLocal(boolean escapes);
-    
-    public abstract int wordsize();
-    
-    public abstract Temp FP();
-    
-    public abstract Exp externalCall(String s, List<Exp> args);
-    
-    public abstract Temp RV();
-    
-    public abstract Stm procEntryExit1(treeIR.Exp body);
-    
-    public abstract List<Instr> procEntryExit2(List<Instr> body);
-    
-    public abstract Proc procEntryExit3(List<Instr> body);
-    
-    public abstract List<Instr> codegen(List<Stm> body);
-    
-    public abstract List<Temp> registers();
+public abstract class Frame {
+	public Label name;
+	public AccessList formals;
+	public abstract Frame newFrame(Symbol name, BoolList args);
+	public abstract int wordSize();
+	public abstract Access allocLocal(boolean escape);
+	public abstract Temp FP();
+	public abstract Temp RV();
+	public abstract Exp externalCall(String func, ExpList args);
+	public abstract String tempMap(Temp temp);
+	public abstract StmList procEntryExit1(StmList body);
+	public abstract InstrList procEntryExit2(InstrList body);
+	public abstract InstrList procEntryExit3(InstrList body);
+	public abstract InstrList codegen(StmList s);
 }
+

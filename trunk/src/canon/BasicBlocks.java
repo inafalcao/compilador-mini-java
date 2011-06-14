@@ -1,5 +1,6 @@
 package canon;
 
+import util.List;
 import treeIR.*;
 import activationRegister.temp.*;
 
@@ -7,7 +8,7 @@ public class BasicBlocks {
   public StmListList blocks;
   public Label done;
 
-  private StmListList lastBlock;
+  public StmListList lastBlock;
   private StmList lastStm;
 
   private void addStm(Stm s) {
@@ -50,5 +51,15 @@ public class BasicBlocks {
   public BasicBlocks(StmList stms) {
     done = new Label();
     mkBlocks(stms);
+  }
+  
+  public BasicBlocks(List<Stm> stms) {
+	    done = new Label();
+	    mkBlocks(toStmList(stms));
+	  }
+  
+  public static treeIR.StmList toStmList(List<treeIR.Stm> el){
+  	if(el==null) return null;
+  	return new treeIR.StmList(el.head,toStmList(el.tail));
   }
 }

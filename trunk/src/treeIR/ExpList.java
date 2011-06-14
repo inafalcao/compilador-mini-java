@@ -17,11 +17,8 @@ public class ExpList extends List<Exp>{
   }
 
 	public ExpList(ExpList args) {
-		ExpList l = args;
-		for(;l!= null; l = (ExpList) l.tail){
-			tail = new ExpList(head, (ExpList) tail);
-			head = l.head;
-		}
+		head = args.head;
+		tail = args.tail;
 	}
 
 	public void addHead(Exp e) {
@@ -29,6 +26,16 @@ public class ExpList extends List<Exp>{
 			tail = new ExpList(head, (ExpList) tail);
 			head = e;
 		}
+	}
+	
+	public String print() {
+		ExpList aux = this;
+		String retorno = "";
+		while(aux!=null){
+			if(aux.head!=null) retorno = retorno+aux.head.print();
+			aux=(ExpList)aux.tail;
+		}
+		return retorno;
 	}
 }
 

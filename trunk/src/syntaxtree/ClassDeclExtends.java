@@ -24,7 +24,7 @@ public void accept(TypeVisitor v) {
     v.visit(this);
   }
   @Override
-public translate.Exp accept(TranslateVisitor v){
+public activationRegister.util.Exp accept(TranslateVisitor v){
 	  return v.visit(this);
   	}
 }

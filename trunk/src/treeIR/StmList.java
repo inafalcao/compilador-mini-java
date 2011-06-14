@@ -12,6 +12,13 @@ public class StmList extends List<Stm> {
 		tail = new StmList(head, (StmList) tail);
 		head = stm;
 	}
+	
+	public void print(){
+		if(head!=null){
+			System.out.println(head.print());
+			if(tail!=null)((StmList)tail).print();
+		}
+	}
 
 }
 

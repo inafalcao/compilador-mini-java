@@ -21,7 +21,7 @@ public class CALL extends Exp {
 
 	@Override
 	public String print() {
-		return "CALL( "+func.print()+");";
+		return "CALL( "+func.print()+","+args.print()+");";
 	}
   
 }

@@ -2,9 +2,9 @@ package treeIR;
 
 public class CONST extends Exp {
 
-	public int value;
+	public long value;
   
-	public CONST(int v) {
+	public CONST(long v) {
 		value=v;
 	}
   
@@ -20,7 +20,7 @@ public class CONST extends Exp {
 
 	@Override
 	public String print() {
-		return "CONST(" + Integer.toString(value)+" );";
+		return "CONST(" + Long.toString(value)+" );";
 	}
 }
 

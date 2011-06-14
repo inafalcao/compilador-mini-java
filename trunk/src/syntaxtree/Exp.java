@@ -8,5 +8,5 @@ public abstract class Exp {
   
 public abstract void accept(Visitor v);
   public abstract Type accept(TypeVisitor v);
-  public abstract translate.Exp accept(TranslateVisitor v);//Translate.java
+  public abstract activationRegister.util.Exp accept(TranslateVisitor v);//Translate.java
 }

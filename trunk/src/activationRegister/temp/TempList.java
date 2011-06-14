@@ -10,11 +10,9 @@ public class TempList extends List<Temp>{
 		super(h, t);
 	}
 
-
 	public TempList() {
 		super();
 	}
-
 
 	public TempList(LinkedList<Temp> l) {
 		head = l.get(l.size()-1);

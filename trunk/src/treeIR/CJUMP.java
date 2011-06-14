@@ -72,7 +72,7 @@ public class CJUMP extends Stm {
 		    case ULE: str += " !<= ";
 		    	break;
 		 }
-	    str += right.print()+" );";
+	    str += right.print()+" , "+iftrue.print()+" , "+iffalse.print()+" );";
 		return str;
 	}
 }

@@ -19,7 +19,7 @@ public class MainClass {
     v.visit(this);
   }
   //criada para ser usada no Translate.java
-  public translate.Exp accept(TranslateVisitor v){
+  public activationRegister.util.Exp accept(TranslateVisitor v){
 	  return v.visit(this);
   }
 }
