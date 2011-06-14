@@ -1,5 +1,5 @@
 == Análise Sintática ==
-Na fase sintática, também de responsabilidade do JAVACC, definimos as produções da gramática apresentada no Apêndice A do livro-texto. Esta fase analisa como os tokens são colocados juntos para formar sentenças válidas na linguagem Mini Java.
+Na fase sintática, também de responsabilidade do JAVACC, definimos as produções da gramática apresentada no Apêndice A do livro-texto. Esta fase analisa como os tokens são colocados juntos para formar sentenças válidas na linguagem Mini Java. <br/>
 Também não foram encontradas grandes dificuldades nesta fase.
 
 As produções da gramática foram definidas e podem ser vistas <a href="http://code.google.com/p/compilador-mini-java/downloads/detail?name=RegrasGramaticais.txt&can=2&q=">aqui</a>
