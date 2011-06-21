@@ -6,6 +6,8 @@ Para construir a árvore de representação intermediária, percorremos a árvor
 
 As classes do pacote treeIR representam a estrutura de dados que armazena o código intermediário, no nosso caso uma árvore IR. No pacote translate são encontradas as classes necessárias para a tradução do código. Na tradução de código, para cada método definido na árvore sintática, um fragmento de código é gerado com o auxílio de um objeto Frame. O objeto Frame foi necessário para gerar o código do prólogo e epílogo dos fragmentos. 
 
+Essa fase foi dividida da seguinte forma: Danusa e Lucas ficaram responsáveis pela implementação do código; Camila e Paulo Jr ficaram responsáveis pela Documentação
+
 A maior dificuldade encontrada nessa etapa foi construir a árvore IR gerando os fragmentos utilizando o Frame e entender como mostrar o resultado dessa fase. Contudo, mesmo sob as diversas dificuldades a equipe se reuniu e conseguiu finalizar todos os módulos. 
 
 <b>Implementação:</b> <font color="#1E90FF"> terminada </font>
