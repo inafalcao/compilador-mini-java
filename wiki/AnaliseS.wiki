@@ -10,6 +10,7 @@ A compilação deste arquivo pelo utilitário do JAVACC também se deu sem erros
 
 Diversos testes também foram realizados a fim de testar esta fase. Todos eles finalizaram com sucesso sob a implementação atual, sem que erros inesperados ocorressem.
 
+Essa fase foi dividida da seguinte forma: Danusa e Camila ficaram responsáveis pela implementação; Lucas e Paulo Jr ficaram responsáveis pela documentação do projeto.
 
 <b>Implementação:</b> <font color="#1E90FF"> terminada </font>
 
