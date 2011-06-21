@@ -8,6 +8,8 @@ A partir dessa definição, o próprio JavaCC se encarrega de gerar o código ci
 
 Como o código gerado é automático, nenhum teste foi realizado, bastando verificar a corretude das regras de transformação aplicadas.
 
+Todos implementaram algumas funções e métodos relacionados a esse módulo do compilador.
+
 <b>Implementação:</b> <font color="#1E90FF"> terminada </font>
 
 <b>Funcionalidade Implementadas:</b> <font color="#1E90FF">geração da árvore abstrata.</font>
