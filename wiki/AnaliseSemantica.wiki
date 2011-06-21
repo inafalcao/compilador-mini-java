@@ -8,6 +8,8 @@ As classes referentes à implementação da tabela de símbolos podem ser encont
 
 Nessa parte da implementação todos fizeram uma parte, principalmente na parte de verificação de tipos, que foi o que mais tivemos dificuldades para a implementação, pois, primeiro estávamos com dificuldades para entender como construir a tabelas de símbolos e verificar cada tipo.
 
+Essa fase foi dividida da seguinte forma: Danusa e Camila ficaram responsáveis pela criação da Tabela de Símbolo; Lucas e Paulo Jr ficaram responsáveis pela implementação dos Visitors.
+
 Todo esse módulo foi totalmente implementado e testado.
 
 
