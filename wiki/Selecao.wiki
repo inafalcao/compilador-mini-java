@@ -6,6 +6,7 @@ No projeto, implementamos o algoritmo Maximal Munch que tem como saída as instr
 
 No pacote jouette, a classe Codegen é usada para gerar o código de máquina.
 
+Essa fase foi dividida da seguinte forma: Lucas responsável pelo algoritmo maximal munnch; Danusa e Camila ficaram responsáveis pela implementação dos métodos extras do pacote jouette; Paulo Jr ficou responsável responsáveis por agrupar os nós gerados na fase anterior.
 
 <b>Implementação:</b> <font color="#1E90FF"> terminada </font>
 
